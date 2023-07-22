@@ -190,9 +190,18 @@ d3.csv("Housing.csv").then(data => {
     // Initial chart creation (default to Chart 1)
     updateScene(1);
   
-    // Event listeners for the buttons
-    d3.select("#chart1Btn").on("click", () => updateScene(1));
-    d3.select("#chart2Btn").on("click", () => updateScene(2));
-    d3.select("#chart3Btn").on("click", () => updateScene(3));
+// Event listeners for the buttons
+d3.select("#chart1Btn").on("click", function () {
+  updateScene(1);
+});
+
+d3.select("#chart2Btn").on("click", function () {
+  updateScene(2);
+});
+
+d3.select("#chart3Btn").on("click", function () {
+  updateScene(3);
+});
+
   });
   
