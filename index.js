@@ -73,6 +73,7 @@ function createChart1(data) {
 function createChart2(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
+  console.log("Creating chart2");
 
   // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
