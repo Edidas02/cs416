@@ -15,8 +15,7 @@ d3.csv("housingprices.csv").then(dataset2 => {
   // Convert data types if necessary
   dataset2.forEach(d => {
     d.price = +d.price;
-    d.area = +d.area;
-    d.bedrooms = +d.bedrooms;
+    d.year = +d.year;
     // Add other conversions as needed for other numeric columns
   });
   data2 = dataset2;
@@ -34,22 +33,6 @@ function createChart1(data) {
   const width = 500 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // Parse the date format and extract the year
-  data.forEach(d => {
-    d.price = +d.price;
-    d.year = +d.year; // Extract the year from the date
-  });
-
-  // Create an SVG element
-  const svg = d3
-    .select("#chartContainer")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-  // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
@@ -68,7 +51,7 @@ function createChart1(data) {
   svg
     .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale).tickFormat(d3.format("d"))); // Format ticks as integers
+    .call(d3.axisBottom(xScale));
 
   // Add y-axis
   svg.append("g").call(d3.axisLeft(yScale));
@@ -79,7 +62,7 @@ function createChart1(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Year vs. Price");
+    .text("Scatter Plot: Price vs. Year");
 }
 
   // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
