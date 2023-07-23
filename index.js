@@ -20,6 +20,9 @@ d3.csv("Housing.csv").then(dataset => {
 
 // Function to create Chart 1 - Scatter Plot (Price vs. Area)
 function createChart1(data) {
+// Function to create Chart 4 - Scatter Plot (Sale Price vs. Year)
+function createChart4(data) {
+  // Clear the previous chart
   d3.select("#chartContainer").html("");
 
   // Set up the dimensions and margins for the chart
@@ -55,8 +58,8 @@ function createChart1(data) {
   svg
     .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
-    
+    .call(d3.axisBottom(xScale).tickFormat(d3.format("d"))); // Format ticks as integers
+
   // Add y-axis
   svg.append("g").call(d3.axisLeft(yScale));
 
@@ -67,6 +70,8 @@ function createChart1(data) {
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Scatter Plot: Sale Price vs. Year");
+}
+
 }
 
   // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
