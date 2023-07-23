@@ -1,21 +1,24 @@
 // Load the Housing.csv dataset
-d3.csv("Housing.csv").then(data => {
+
+let data;
+d3.csv("Housing.csv").then(dataset => {
   // Convert data types if necessary
-  data.forEach(d => {
+  dataset.forEach(d => {
     d.price = +d.price;
     d.area = +d.area;
     d.bedrooms = +d.bedrooms;
     // Add other conversions as needed for other numeric columns
   });
+  data = dataset;
 
   // Set up parameters
   let currentScene = 1; // Track the current scene
   const scenes = 3; // Total number of scenes
 
   // Function to create Chart 1 - Scatter Plot (Price vs. Area)
-  function createChart1() {
+  function createChart1(data) {
     // Clear the previous chart
-    d3.select("#chartContainer").html("");
+    d3.select("#chartContainer1").html("");
 
     // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -65,9 +68,9 @@ d3.csv("Housing.csv").then(data => {
   }
 
   // Function to create Chart 2 - Bar Chart (Bedrooms Count)
-  function createChart2() {
+  function createChart2(data) {
     // Clear the previous chart
-    d3.select("#chartContainer").html("");
+    d3.select("#chartContainer2").html("");
 
     // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -123,9 +126,9 @@ d3.csv("Housing.csv").then(data => {
   }
 
   // Function to create Chart 3 - Pie Chart (Furnishing Status)
-  function createChart3() {
+  function createChart3(data) {
     // Clear the previous chart
-    d3.select("#chartContainer").html("");
+    d3.select("#chartContainer3").html("");
 
     // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -179,17 +182,18 @@ d3.csv("Housing.csv").then(data => {
   }
 
   // Function to update the scene and chart
-  function updateScene(sceneNumber) {
-    currentScene = sceneNumber;
-    // Call the appropriate function to create the chart based on the scene number
-    if (currentScene === 1) {
-      createChart1();
-    } else if (currentScene === 2) {
-      createChart2();
-    } else if (currentScene === 3) {
-      createChart3();
-    }
+// Function to update the scene and chart
+function updateScene(sceneNumber) {
+  currentScene = sceneNumber;
+  if (currentScene === 1) {
+    createChart1(data);
+  } else if (currentScene === 2) {
+    createChart2(data);
+  } else if (currentScene === 3) {
+    createChart3(data);
   }
+}
+
 
   // Initial chart creation (default to Chart 1)
   updateScene(1);
