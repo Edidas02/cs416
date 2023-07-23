@@ -1,7 +1,5 @@
 /* Set the width and height of the chart containers */
-#chartContainer1,
-#chartContainer2,
-#chartContainer3 {
+#chartContainer{
   width: 500px;
   height: 400px;
 }
