@@ -17,6 +17,7 @@ d3.csv("Housing.csv").then(dataset => {
 
   // Function to create Chart 1 - Scatter Plot (Price vs. Area)
   function createChart1(data) {
+    console.log("Creating chart 1");
     // Clear the previous chart
     d3.select("#chartContainer1").html("");
 
