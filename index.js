@@ -28,7 +28,7 @@ d3.csv("Housing.csv").then(dataset => {
 
     // Create an SVG element
     const svg = d3
-      .select("#chartContainer")
+      .select("#chartContainer1")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -80,7 +80,7 @@ d3.csv("Housing.csv").then(dataset => {
 
     // Create an SVG element
     const svg = d3
-      .select("#chartContainer")
+      .select("#chartContainer2")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -138,7 +138,7 @@ d3.csv("Housing.csv").then(dataset => {
 
     // Create an SVG element
     const svg = d3
-      .select("#chartContainer")
+      .select("#chartContainer3")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
