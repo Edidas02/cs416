@@ -11,7 +11,7 @@ d3.csv("Housing.csv").then(dataset => {
     d.year = +d.year;
     d.saleprice = +d.saleprice;
     d.affindex = +d.affindex;
-    d.afftime = +d.fafftime;
+    d.afftime = +d.afftime;
     // Add other conversions as needed for other numeric columns
   });
   data = dataset;
