@@ -191,7 +191,7 @@ function updateScene(sceneNumber) {
 
 
   // Initial chart creation (default to Chart 1)
-  updateScene(1);
+  updateScene(2);
 
   d3.select("#chart1Btn").on("click", function () {
     updateScene(1);
