@@ -19,7 +19,7 @@ d3.csv("Housing.csv").then(dataset => {
   // Function to create Chart 1 - Scatter Plot (Price vs. Area)
 // Function to create Chart 1 - Scatter Plot (Price vs. Area)
 function createChart1(data) {
-  d3.select("#chartContainer1").html("");
+  d3.select("#chartContainer").html("");
 
   // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
