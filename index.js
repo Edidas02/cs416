@@ -197,6 +197,12 @@ function createChart3(data) {
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
+  // Parse "afftime" as a date
+  const parseDate = d3.timeParse("%Y");
+  filteredData.forEach(d => {
+    d.afftime = parseDate(d.afftime);
+  });
+
   // Set up the scales for x and y axes
   const xScale = d3.scaleBand()
     .domain(filteredData.map(d => d.afftime))
@@ -244,8 +250,9 @@ function createChart3(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Affordability Index vs. Year");
+    .text("Affordability Index Over Time");
 }
+
 // Function to update the scene and chart
 function updateScene(sceneNumber) {
   currentScene = sceneNumber;
