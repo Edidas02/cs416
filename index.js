@@ -191,19 +191,20 @@ function createChart3(data) {
   console.log("Creating Chart 3");
 
   // Filter out empty values in the data
-  const filteredData = data.filter(d => d.afftime && d.affindex);
-  console.log(filteredData);
+  const parseDate = d3.timeParse("%Y");
+  data.forEach(d => {
+    d.afftime = parseDate(d.afftime);
+    d.affindex = +d.affindex;
+  });
 
+  // Filter out data points with empty "afftime" or "affindex"
+  const filteredData = data.filter(d => !isNaN(d.affindex) && d.afftime);
+  console.log(filteredData);
   // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // Parse "afftime" as a date
-  const parseDate = d3.timeParse("%Y");
-  filteredData.forEach(d => {
-    d.afftime = parseDate(d.afftime);
-  });
 
   // Set up the scales for x and y axes
   const xScale = d3.scaleBand()
