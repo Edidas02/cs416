@@ -110,7 +110,7 @@ function createChart1(data) {
     .attr("text-anchor", "middle")
     .text("Time vs. Income");
 
-  const annotation = {
+    const annotation = {
       type: d3.annotationLabel,
       note: {
         title: "Positive Correlation",
@@ -122,14 +122,14 @@ function createChart1(data) {
         type: "curve",
         points: [
           [width / 4, height / 2],
-          [width / 2, height / 2],
+          [width / 4 + 50, height / 2 - 50],
         ],
       },
-      x: width / 2,
-      y: height / 2,
-      dx: -40,
-      dy: -30,
-  };
+      x: width / 4 + 50,
+      y: height / 2 - 50,
+      dx: 0,
+      dy: -10,
+    };
   const makeAnnotation = d3.annotation().annotations([annotation]);
   svg1.append("g").call(makeAnnotation);
   svg2.append("g").call(makeAnnotation);
