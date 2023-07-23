@@ -11,6 +11,8 @@ d3.csv("Housing.csv").then(dataset => {
   });
   data = dataset;
 
+  console.log(data);
+
   // Set up parameters
   let currentScene = 1; // Track the current scene
   const scenes = 3; // Total number of scenes
