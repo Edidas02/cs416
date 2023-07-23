@@ -109,6 +109,27 @@ function createChart1(data) {
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Scatter Plot: Time vs. Income");
+
+  const annotation = {
+      type: d3.annotationLabel,
+      note: {
+        title: "Positive Correlation",
+        label: "Both charts indicate a positive correlation with time",
+        wrap: 180,
+      },
+      connector: {
+        end: "arrow",
+        type: "curve",
+        points: [
+          [width / 4, height / 2],
+          [width / 2, height / 2],
+        ],
+      },
+      x: width / 2,
+      y: height / 2,
+      dx: -40,
+      dy: -30,
+  };
 }
 
 
