@@ -1,4 +1,4 @@
-price,area,bedrooms,bathrooms,stories,mainroad,guestroom,basement,hotwaterheating,airconditioning,parking,prefarea,furnishingstatus,year,saleprice,date,income,afftime,
+price,area,bedrooms,bathrooms,stories,mainroad,guestroom,basement,hotwaterheating,airconditioning,parking,prefarea,furnishingstatus,year,saleprice,date,income,afftime,affindex
 13300000,7420,4,2,3,yes,no,no,no,yes,2,yes,furnished,1963,17800,1984,22415,2001,119
 12250000,8960,4,4,4,yes,no,no,no,yes,3,no,furnished,1963,18000,1985,23618,2002,127
 12250000,9960,3,2,2,yes,no,yes,no,no,2,yes,semi-furnished,1963,17900,1986,24897,2003,123
