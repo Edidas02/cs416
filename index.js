@@ -8,17 +8,11 @@ d3.csv("Housing.csv").then(dataset => {
     d.price = +d.price;
     d.area = +d.area;
     d.bedrooms = +d.bedrooms;
+    d.year = +d.year;
+    d.saleprice = +d.saleprice;
     // Add other conversions as needed for other numeric columns
   });
   data = dataset;
-d3.csv("housingprices.csv").then(dataset2 => {
-  // Convert data types if necessary
-  dataset2.forEach(d => {
-    d.price = +d.price;
-    d.year = +d.year;
-    // Add other conversions as needed for other numeric columns
-  });
-  data2 = dataset2;
 
   // Set up parameters
   let currentScene = 1; // Track the current scene
@@ -33,8 +27,18 @@ function createChart1(data) {
   const width = 500 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
+  // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width]);
-  const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
+  const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.saleprice)).range([height, 0]);
+
+  // Create an SVG element
+  const svg = d3
+    .select("#chartContainer")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   // Create the scatter plot
   svg
@@ -43,7 +47,7 @@ function createChart1(data) {
     .enter()
     .append("circle")
     .attr("cx", d => xScale(d.year))
-    .attr("cy", d => yScale(d.price))
+    .attr("cy", d => yScale(d.saleprice))
     .attr("r", 5)
     .attr("fill", "steelblue");
 
@@ -51,7 +55,7 @@ function createChart1(data) {
   svg
     .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
+    .call(d3.axisBottom(xScale).tickFormat(d3.format("d"))); // Format ticks as integers
 
   // Add y-axis
   svg.append("g").call(d3.axisLeft(yScale));
@@ -62,7 +66,7 @@ function createChart1(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Price vs. Year");
+    .text("Scatter Plot: Sale Price vs. Year");
 }
 
   // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
@@ -187,8 +191,8 @@ function updateChartTitle(title) {
 function updateScene(sceneNumber) {
   currentScene = sceneNumber;
   if (currentScene === 1) {
-    createChart1(data2);
-    updateChartTitle("Scatter Plot: Price vs. Area");
+    createChart1(data);
+    updateChartTitle("Scatter Plot: Sale Price vs. Year");
   } else if (currentScene === 2) {
     createChart2(data);
     updateChartTitle("Scatter Plot: Price vs. Area");
@@ -202,16 +206,15 @@ function updateScene(sceneNumber) {
   // Initial chart creation (default to Chart 1)
   updateScene(1);
 
-d3.select("#chart1Btn").on("click", function () {
-  updateScene(1);
-});
+  d3.select("#chart1Btn").on("click", function () {
+    updateScene(1);
+  });
 
-d3.select("#chart2Btn").on("click", function () {
-  updateScene(2);
-});
+  d3.select("#chart2Btn").on("click", function () {
+    updateScene(2);
+  });
 
-d3.select("#chart3Btn").on("click", function () {
-  updateScene(3);
-});
-
+  d3.select("#chart3Btn").on("click", function () {
+    updateScene(3);
+  });
 });
