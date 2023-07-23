@@ -134,7 +134,6 @@ function createChart1(data) {
 }
 
 
-  // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
 function createChart2(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
@@ -156,14 +155,6 @@ function createChart2(data) {
   // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
-  const xScale2 = d3.scaleBand()
-    .domain(filteredData.map(d => d.afftime))
-    .range([0, width])
-    .padding(0.1);
-
-  const yScale2 = d3.scaleLinear()
-    .domain([0, d3.max(filteredData, d => d.affindex)])
-    .range([height, 0]);
 
   // Create the scatter plot
   svg
@@ -194,10 +185,6 @@ function createChart2(data) {
     .text("Price vs. Area");
 }
 
-
-  // Function to create Chart 3 - Pie Chart (Furnishing Status)
- // Function to create Chart 3 - Pie Chart (Furnishing Status)
-// Function to create Chart 3 - Bar Chart (Affordability Index vs. Year)
 function createChart3(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
