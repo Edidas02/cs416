@@ -188,6 +188,7 @@ function createChart2(data) {
 function createChart3(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
+  console.log("Creating Chart 3");
 
   // Filter out empty values in the data
   const filteredData = data.filter(d => d.afftime && d.affindex);
