@@ -69,118 +69,114 @@ function createChart1(data) {
 }
 
   // Function to create Chart 2 - Bar Chart (Bedrooms Count)
-  function createChart2(data) {
-    // Clear the previous chart
-    d3.select("#chartContainer").html("");
+  // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
+function createChart2(data) {
+  // Clear the previous chart
+  d3.select("#chartContainer2").html("");
 
-    // Set up the dimensions and margins for the chart
-    const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-    const width = 500 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+  // Set up the dimensions and margins for the chart
+  const margin = { top: 20, right: 20, bottom: 50, left: 70 };
+  const width = 500 - margin.left - margin.right;
+  const height = 400 - margin.top - margin.bottom;
 
-    // Create an SVG element
-    const svg = d3
-      .select("#chartContainer")
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  // Create an SVG element
+  const svg = d3
+    .select("#chartContainer2")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Prepare the data for the bar chart (count bedrooms)
-    const bedroomCounts = d3.rollup(data, v => v.length, d => d.bedrooms);
+  // Set up the scales for x and y axes
+  const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.bedrooms)).range([0, width]);
+  const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-    // Set up the scale for the x-axis (bedroom count)
-    const xScale = d3.scaleBand().domain(Array.from(bedroomCounts.keys())).range([0, width]).padding(0.1);
+  // Create the scatter plot
+  svg
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.bedrooms))
+    .attr("cy", d => yScale(d.price))
+    .attr("r", 5)
+    .attr("fill", "steelblue");
 
-    // Set up the scale for the y-axis (count values)
-    const yScale = d3.scaleLinear().domain([0, d3.max(Array.from(bedroomCounts.values()))]).range([height, 0]);
+  // Add x-axis
+  svg
+    .append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale));
 
-    // Create the bars
-    svg
-      .selectAll("rect")
-      .data(Array.from(bedroomCounts))
-      .enter()
-      .append("rect")
-      .attr("x", d => xScale(d[0]))
-      .attr("y", d => yScale(d[1]))
-      .attr("width", xScale.bandwidth())
-      .attr("height", d => height - yScale(d[1]))
-      .attr("fill", "steelblue");
+  // Add y-axis
+  svg.append("g").call(d3.axisLeft(yScale));
 
-    // Add x-axis
-    svg
-      .append("g")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale));
+  // Add chart title
+  svg
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", 0 - margin.top / 2)
+    .attr("text-anchor", "middle")
+    .text("Scatter Plot: Price vs. Bedrooms");
+}
 
-    // Add y-axis
-    svg.append("g").call(d3.axisLeft(yScale));
-
-    // Add chart title
-    svg
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y", 0 - margin.top / 2)
-      .attr("text-anchor", "middle")
-      .text("Bar Chart: Bedrooms Count");
-  }
 
   // Function to create Chart 3 - Pie Chart (Furnishing Status)
-  function createChart3(data) {
-    // Clear the previous chart
-    d3.select("#chartContainer").html("");
-    const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-    const width = 500 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+ // Function to create Chart 3 - Pie Chart (Furnishing Status)
+function createChart3(data) {
+  // Clear the previous chart
+  d3.select("#chartContainer3").html("");
 
-    // Create an SVG element
-    const svg = d3
-      .select("#chartContainer")
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+  // Prepare data for the pie chart
+  const furnishingStatusData = d3.rollups(
+    data,
+    v => v.length,
+    d => d.furnishingstatus
+  );
 
-    // Prepare the data for the pie chart (furnishing status)
-    const furnishingCounts = d3.rollup(data, v => v.length, d => d.furnishingstatus);
-    const pieData = Array.from(furnishingCounts, d => ({ name: d[0], value: d[1] }));
+  // Set up dimensions for the pie chart
+  const width = 500;
+  const height = 400;
+  const radius = Math.min(width, height) / 2;
 
-    // Set up the pie generator
-    const pie = d3.pie().value(d => d.value);
+  // Create an SVG element
+  const svg = d3
+    .select("#chartContainer3")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    // Set up the arc generator
-    const arc = d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2 - 20);
+  // Set up the pie generator
+  const pie = d3.pie().value(d => d[1]);
 
-    // Create the pie chart slices
-    const slices = svg
-      .selectAll("path")
-      .data(pie(pieData))
-      .enter()
-      .append("path")
-      .attr("d", arc)
-      .attr("fill", (d, i) => d3.schemeCategory10[i]);
+  // Generate the arcs for the pie chart
+  const arcs = pie(furnishingStatusData);
 
-    // Add chart title
-    svg
-      .append("text")
-      .attr("text-anchor", "middle")
-      .text("Pie Chart: Furnishing Status");
+  // Set up color scale
+  const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-    // Add data labels
-    svg
-      .selectAll("text.label")
-      .data(pie(pieData))
-      .enter()
-      .append("text")
-      .attr("class", "label")
-      .attr("transform", d => `translate(${arc.centroid(d)})`)
-      .attr("text-anchor", "middle")
-      .text(d => d.data.name);
-  }
+  // Draw the pie chart slices
+  const arc = d3.arc().innerRadius(0).outerRadius(radius);
+  svg
+    .selectAll("path")
+    .data(arcs)
+    .enter()
+    .append("path")
+    .attr("d", arc)
+    .attr("fill", (d, i) => colorScale(i));
 
-  // Function to update the scene and chart
+  // Add chart title
+  svg
+    .append("text")
+    .attr("x", 0)
+    .attr("y", 0 - radius - 10)
+    .attr("text-anchor", "middle")
+    .text("Pie Chart: Furnishing Status");
+}
+
 // Function to update the scene and chart
 function updateScene(sceneNumber) {
   currentScene = sceneNumber;
