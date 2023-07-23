@@ -191,6 +191,7 @@ function createChart3(data) {
 
   // Filter out empty values in the data
   const filteredData = data.filter(d => d.afftime && d.affindex);
+  console.log(filteredData);
 
   // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
