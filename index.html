@@ -12,10 +12,32 @@
     <button id="chart2Btn">Chart 2</button>
     <button id="chart3Btn">Chart 3</button>
   </div>
-  <div id="chartContainer">
-    <!-- SVG container for the charts -->
+  <div class="row">
+    <!-- Chart container for Chart 1 -->
+    <div class="col">
+      <div class="d-flex justify-content-center">
+        <h4>Scatter Plot: Price vs. Area</h4>
+      </div>
+      <div id="chartContainer1"></div>
+    </div>
+
+    <!-- Chart container for Chart 2 -->
+    <div class="col">
+      <div class="d-flex justify-content-center">
+        <h4>Bar Chart: Bedrooms Count</h4>
+      </div>
+      <div id="chartContainer2"></div>
+    </div>
+
+    <!-- Chart container for Chart 3 -->
+    <div class="col">
+      <div class="d-flex justify-content-center">
+        <h4>Pie Chart: Furnishing Status</h4>
+      </div>
+      <div id="chartContainer3"></div>
+    </div>
   </div>
 
-  <script src="index.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
