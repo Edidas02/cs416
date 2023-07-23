@@ -10,6 +10,8 @@ d3.csv("Housing.csv").then(dataset => {
     d.bedrooms = +d.bedrooms;
     d.year = +d.year;
     d.saleprice = +d.saleprice;
+    d.affindex = +d.affindex;
+    d.afftime = +d.fafftime;
     // Add other conversions as needed for other numeric columns
   });
   data = dataset;
@@ -154,6 +156,14 @@ function createChart2(data) {
   // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
+  const xScale2 = d3.scaleBand()
+    .domain(filteredData.map(d => d.afftime))
+    .range([0, width])
+    .padding(0.1);
+
+  const yScale2 = d3.scaleLinear()
+    .domain([0, d3.max(filteredData, d => d.affindex)])
+    .range([height, 0]);
 
   // Create the scatter plot
   svg
@@ -187,81 +197,77 @@ function createChart2(data) {
 
   // Function to create Chart 3 - Pie Chart (Furnishing Status)
  // Function to create Chart 3 - Pie Chart (Furnishing Status)
+// Function to create Chart 3 - Bar Chart (Affordability Index vs. Year)
 function createChart3(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
 
-  // Prepare data for the pie chart
-  const furnishingStatusData = d3.rollups(
-    data,
-    v => v.length,
-    d => d.furnishingstatus
-  );
+  // Filter out empty values in the data
+  const filteredData = data.filter(d => d.afftime && d.affindex);
 
-  // Set up dimensions for the pie chart
-  const width = 500;
-  const height = 400;
-  const radius = Math.min(width, height) / 2;
+  // Set up the dimensions and margins for the chart
+  const margin = { top: 20, right: 20, bottom: 50, left: 70 };
+  const width = 800 - margin.left - margin.right;
+  const height = 400 - margin.top - margin.bottom;
 
-  // Create an SVG element
-  const svg = d3
-    .select("#chartContainer")
+  // Set up the scales for x and y axes
+  const xScale = d3.scaleBand()
+    .domain(filteredData.map(d => d.afftime))
+    .range([0, width])
+    .padding(0.1);
+
+  const yScale = d3.scaleLinear()
+    .domain([0, d3.max(filteredData, d => d.affindex)])
+    .range([height, 0]);
+
+  // Create an SVG element for the third chart
+  const svg3 = d3.select("#chartContainer")
     .append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Set up the pie generator
-  const pie = d3.pie().value(d => d[1]);
-
-  // Generate the arcs for the pie chart
-  const arcs = pie(furnishingStatusData);
-
-  // Set up color scale
-  const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
-  // Draw the pie chart slices
-  const arc = d3.arc().innerRadius(0).outerRadius(radius);
-  svg
-    .selectAll("path")
-    .data(arcs)
+  // Create the bars for the bar chart
+  svg3.selectAll(".bar")
+    .data(filteredData)
     .enter()
-    .append("path")
-    .attr("d", arc)
-    .attr("fill", (d, i) => colorScale(i));
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", d => xScale(d.afftime))
+    .attr("y", d => yScale(d.affindex))
+    .attr("width", xScale.bandwidth())
+    .attr("height", d => height - yScale(d.affindex))
+    .attr("fill", "steelblue");
 
-  // Add chart title
-  svg
-    .append("text")
-    .attr("x", 0)
-    .attr("y", 0 - radius - 10)
+  // Add x-axis to the chart
+  svg3.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale))
+    .selectAll("text")
+    .attr("transform", "rotate(-45)")
+    .attr("text-anchor", "end");
+
+  // Add y-axis to the chart
+  svg3.append("g")
+    .call(d3.axisLeft(yScale));
+
+  // Add chart title for the third chart
+  svg3.append("text")
+    .attr("x", width / 2)
+    .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Pie Chart: Furnishing Status");
-}
-function updateChartTitle(title) {
-  // Clear the previous chart title
-  d3.select("#chartContainer").select(".chart-title").html("");
-
-  // Append the new chart title
-  d3.select("#chartContainer")
-    .select(".chart-title")
-    .style("text-align", "center")
-    .style("font-size", "18px")
-    .text(title);
+    .text("Affordability Index vs. Year");
 }
 // Function to update the scene and chart
 function updateScene(sceneNumber) {
   currentScene = sceneNumber;
   if (currentScene === 1) {
     createChart1(data);
-    updateChartTitle("Scatter Plot: Sale Price vs. Year");
   } else if (currentScene === 2) {
     createChart2(data);
-    updateChartTitle("Scatter Plot: Price vs. Area");
   } else if (currentScene === 3) {
     createChart3(data);
-    updateChartTitle("Pie Chart: Furnishing Status");
   }
 }
 
