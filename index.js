@@ -19,7 +19,7 @@ d3.csv("Housing.csv").then(dataset => {
   function createChart1(data) {
     console.log("Creating chart 1");
     // Clear the previous chart
-    d3.select("#chartContainer1").html("");
+    d3.select("#chartContainer").html("");
 
     // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -28,7 +28,7 @@ d3.csv("Housing.csv").then(dataset => {
 
     // Create an SVG element
     const svg = d3
-      .select("#chartContainer1")
+      .select("#chartContainer")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -71,7 +71,7 @@ d3.csv("Housing.csv").then(dataset => {
   // Function to create Chart 2 - Bar Chart (Bedrooms Count)
   function createChart2(data) {
     // Clear the previous chart
-    d3.select("#chartContainer2").html("");
+    d3.select("#chartContainer").html("");
 
     // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -80,7 +80,7 @@ d3.csv("Housing.csv").then(dataset => {
 
     // Create an SVG element
     const svg = d3
-      .select("#chartContainer2")
+      .select("#chartContainer")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -129,7 +129,7 @@ d3.csv("Housing.csv").then(dataset => {
   // Function to create Chart 3 - Pie Chart (Furnishing Status)
   function createChart3(data) {
     // Clear the previous chart
-    d3.select("#chartContainer3").html("");
+    d3.select("#chartContainer").html("");
 
     // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -138,7 +138,7 @@ d3.csv("Housing.csv").then(dataset => {
 
     // Create an SVG element
     const svg = d3
-      .select("#chartContainer3")
+      .select("#chartContainer")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
