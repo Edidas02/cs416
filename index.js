@@ -63,55 +63,60 @@ d3.csv("Housing.csv").then(data => {
     // Function to create Chart 2 - Bar Chart (Bedrooms Count)
     function createChart2() {
       // Clear the previous chart
-      d3.select("#chartContainer2").html("");
-    
+      d3.select("#chartContainer").html("");
+  
       // Set up the dimensions and margins for the chart
       const margin = { top: 20, right: 20, bottom: 50, left: 70 };
       const width = 500 - margin.left - margin.right;
       const height = 400 - margin.top - margin.bottom;
-    
+  
       // Create an SVG element
       const svg = d3
-        .select("#chartContainer2")
+        .select("#chartContainer")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
-    
-      // Set up the scales for x and y axes
-      const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.bedrooms)).range([0, width]);
-      const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
-    
-      // Create the scatter plot
+  
+      // Prepare the data for the bar chart (count bedrooms)
+      const bedroomCounts = d3.rollup(data, v => v.length, d => d.bedrooms);
+  
+      // Set up the scale for the x-axis (bedroom count)
+      const xScale = d3.scaleBand().domain(Array.from(bedroomCounts.keys())).range([0, width]).padding(0.1);
+  
+      // Set up the scale for the y-axis (count values)
+      const yScale = d3.scaleLinear().domain([0, d3.max(Array.from(bedroomCounts.values()))]).range([height, 0]);
+  
+      // Create the bars
       svg
-        .selectAll("circle")
-        .data(data)
+        .selectAll("rect")
+        .data(Array.from(bedroomCounts))
         .enter()
-        .append("circle")
-        .attr("cx", d => xScale(d.bedrooms))
-        .attr("cy", d => yScale(d.price))
-        .attr("r", 5)
+        .append("rect")
+        .attr("x", d => xScale(d[0]))
+        .attr("y", d => yScale(d[1]))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => height - yScale(d[1]))
         .attr("fill", "steelblue");
-    
+  
       // Add x-axis
       svg
         .append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(xScale));
-    
+  
       // Add y-axis
       svg.append("g").call(d3.axisLeft(yScale));
-    
+  
       // Add chart title
       svg
         .append("text")
         .attr("x", width / 2)
         .attr("y", 0 - margin.top / 2)
         .attr("text-anchor", "middle")
-        .text("Scatter Plot: Price vs. Bedrooms");
+        .text("Bar Chart: Bedrooms Count");
     }
-    
   
     // Function to create Chart 3 - Pie Chart (Furnishing Status)
     function createChart3() {
