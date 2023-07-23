@@ -207,15 +207,16 @@ function updateScene(sceneNumber) {
   // Initial chart creation (default to Chart 1)
   updateScene(1);
 
-  d3.select("#chart1Btn").on("click", function () {
-    updateScene(1);
-  });
-  
-  d3.select("#chart2Btn").on("click", function () {
-    updateScene(2);
-  });
-  
-  d3.select("#chart3Btn").on("click", function () {
-    updateScene(3);
-  });
+d3.select("#chart1Btn").on("click", function () {
+  updateScene(1);
+});
+
+d3.select("#chart2Btn").on("click", function () {
+  updateScene(2);
+});
+
+d3.select("#chart3Btn").on("click", function () {
+  updateScene(3);
+});
+
 });
