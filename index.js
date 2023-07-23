@@ -189,6 +189,7 @@ function createChart3(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
   console.log("Creating Chart 3");
+  console.log(data);
 
   // Filter out empty values in the data
   const parseDate = d3.timeParse("%Y");
