@@ -131,8 +131,6 @@ function createChart1(data) {
   function createChart3(data) {
     // Clear the previous chart
     d3.select("#chartContainer").html("");
-
-    // Set up the dimensions and margins for the chart
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
