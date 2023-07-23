@@ -130,6 +130,9 @@ function createChart1(data) {
       dx: -40,
       dy: -30,
   };
+  const makeAnnotation = d3.annotation().annotations([annotation]);
+  svg1.append("g").call(makeAnnotation);
+  svg2.append("g").call(makeAnnotation);
 }
 
 
