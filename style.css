@@ -1,0 +1,7 @@
+/* Set the width and height of the chart containers */
+#chartContainer1,
+#chartContainer2,
+#chartContainer3 {
+  width: 1200;
+  height: 1080;
+}

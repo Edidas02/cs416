@@ -11,64 +11,63 @@ d3.csv("Housing.csv").then(dataset => {
   });
   data = dataset;
 
-  console.log(data);
 
   // Set up parameters
   let currentScene = 1; // Track the current scene
   const scenes = 3; // Total number of scenes
 
   // Function to create Chart 1 - Scatter Plot (Price vs. Area)
-  function createChart1(data) {
-    console.log("Creating chart 1");
-    // Clear the previous chart
-    d3.select("#chartContainer").html("");
+// Function to create Chart 1 - Scatter Plot (Price vs. Area)
+function createChart1(data) {
+  // Clear the previous chart
+  d3.select("#chartContainer1").html("");
 
-    // Set up the dimensions and margins for the chart
-    const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-    const width = 500 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+  // Set up the dimensions and margins for the chart
+  const margin = { top: 20, right: 20, bottom: 50, left: 70 };
+  const width = 500 - margin.left - margin.right;
+  const height = 400 - margin.top - margin.bottom;
 
-    // Create an SVG element
-    const svg = d3
-      .select("#chartContainer")
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  // Create an SVG element
+  const svg = d3
+    .select("#chartContainer1")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Set up the scales for x and y axes
-    const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
-    const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
+  // Set up the scales for x and y axes
+  const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
+  const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-    // Create the scatter plot
-    svg
-      .selectAll("circle")
-      .data(data)
-      .enter()
-      .append("circle")
-      .attr("cx", d => xScale(d.area))
-      .attr("cy", d => yScale(d.price))
-      .attr("r", 5)
-      .attr("fill", "steelblue");
+  // Create the scatter plot
+  svg
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.area))
+    .attr("cy", d => yScale(d.price))
+    .attr("r", 5)
+    .attr("fill", "steelblue");
 
-    // Add x-axis
-    svg
-      .append("g")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale));
+  // Add x-axis
+  svg
+    .append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale));
 
-    // Add y-axis
-    svg.append("g").call(d3.axisLeft(yScale));
+  // Add y-axis
+  svg.append("g").call(d3.axisLeft(yScale));
 
-    // Add chart title
-    svg
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y", 0 - margin.top / 2)
-      .attr("text-anchor", "middle")
-      .text("Scatter Plot: Price vs. Area");
-  }
+  // Add chart title
+  svg
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", 0 - margin.top / 2)
+    .attr("text-anchor", "middle")
+    .text("Scatter Plot: Price vs. Area");
+}
 
   // Function to create Chart 2 - Bar Chart (Bedrooms Count)
   function createChart2(data) {
