@@ -71,7 +71,7 @@ function createChart1(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Sale Price vs. Year");
+    .text("Scatter Plot: test Price vs. Year");
 }
 
 
