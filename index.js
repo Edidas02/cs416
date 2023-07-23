@@ -29,9 +29,12 @@ function createChart1(data) {
   const width = 500 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
+  // Filter out data points with missing "year" or "saleprice" values
+  const filteredData = data.filter(d => !isNaN(d.year) && !isNaN(d.saleprice));
+
   // Set up the scales for x and y axes
-  const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width]);
-  const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.saleprice)).range([height, 0]);
+  const xScale = d3.scaleLinear().domain(d3.extent(filteredData, d => d.year)).range([0, width]);
+  const yScale = d3.scaleLinear().domain(d3.extent(filteredData, d => d.saleprice)).range([height, 0]);
 
   // Create an SVG element
   const svg = d3
@@ -45,7 +48,7 @@ function createChart1(data) {
   // Create the scatter plot
   svg
     .selectAll("circle")
-    .data(data)
+    .data(filteredData)
     .enter()
     .append("circle")
     .attr("cx", d => xScale(d.year))
@@ -68,9 +71,8 @@ function createChart1(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: test Price vs. Year");
+    .text("Scatter Plot: Sale Price vs. Year");
 }
-
 
 
   // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
