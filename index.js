@@ -28,7 +28,7 @@ function createChart1(data) {
 
   // Create an SVG element
   const svg = d3
-    .select("#chartContainer1")
+    .select("#chartContainer")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -72,7 +72,7 @@ function createChart1(data) {
   // Function to create Chart 2 - Scatter Plot (Price vs. Bedrooms)
 function createChart2(data) {
   // Clear the previous chart
-  d3.select("#chartContainer2").html("");
+  d3.select("#chartContainer").html("");
 
   // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
@@ -81,7 +81,7 @@ function createChart2(data) {
 
   // Create an SVG element
   const svg = d3
-    .select("#chartContainer2")
+    .select("#chartContainer")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -126,7 +126,7 @@ function createChart2(data) {
  // Function to create Chart 3 - Pie Chart (Furnishing Status)
 function createChart3(data) {
   // Clear the previous chart
-  d3.select("#chartContainer3").html("");
+  d3.select("#chartContainer").html("");
 
   // Prepare data for the pie chart
   const furnishingStatusData = d3.rollups(
@@ -142,7 +142,7 @@ function createChart3(data) {
 
   // Create an SVG element
   const svg = d3
-    .select("#chartContainer3")
+    .select("#chartContainer")
     .append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -176,22 +176,35 @@ function createChart3(data) {
     .attr("text-anchor", "middle")
     .text("Pie Chart: Furnishing Status");
 }
+function updateChartTitle(title) {
+  // Clear the previous chart title
+  d3.select("#chartContainer").select(".chart-title").html("");
 
+  // Append the new chart title
+  d3.select("#chartContainer")
+    .select(".chart-title")
+    .style("text-align", "center")
+    .style("font-size", "18px")
+    .text(title);
+}
 // Function to update the scene and chart
 function updateScene(sceneNumber) {
   currentScene = sceneNumber;
   if (currentScene === 1) {
     createChart1(data);
+    updateChartTitle("Scatter Plot: Price vs. Area");
   } else if (currentScene === 2) {
     createChart2(data);
+    updateChartTitle("Scatter Plot: Price vs. Bedrooms");
   } else if (currentScene === 3) {
     createChart3(data);
+    updateChartTitle("Pie Chart: Furnishing Status");
   }
 }
 
 
   // Initial chart creation (default to Chart 1)
-  updateScene(2);
+  updateScene(1);
 
   d3.select("#chart1Btn").on("click", function () {
     updateScene(1);
