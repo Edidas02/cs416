@@ -72,7 +72,7 @@ function createChart1(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Sale Price Over Time");
+    .text("Housing Sale Price Over Time");
 
   // Create the second SVG element for the second chart (Time vs. Income)
   const svg2 = chartWrapper
@@ -108,7 +108,7 @@ function createChart1(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Time vs. Income");
+    .text("Time vs. Income");
 
   const annotation = {
       type: d3.annotationLabel,
@@ -185,7 +185,7 @@ function createChart2(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Price vs. Area");
+    .text("Price vs. Area");
 }
 
 
