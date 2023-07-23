@@ -30,10 +30,10 @@ function createChart1(data) {
   const height = 400 - margin.top - margin.bottom;
 
   // Set up the scales for x and y axes for both charts
-  const xScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width / 2]);
+  const xScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width]);
   const yScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.saleprice)).range([height, 0]);
 
-  const xScale2 = d3.scaleTime().domain(d3.extent(data, d => d.date)).range([width / 2, width]);
+  const xScale2 = d3.scaleLinear().domain(d3.extent(data, d => d.date)).range([0, width]);
   const yScale2 = d3.scaleLinear().domain(d3.extent(data, d => d.income)).range([height, 0]);
 
   // Create a wrapper <div> to contain both SVG elements
@@ -42,7 +42,7 @@ function createChart1(data) {
   // Create the first SVG element for the first chart (Price vs. Area)
   const svg1 = chartWrapper
     .append("svg")
-    .attr("width", width / 2 + margin.left + margin.right)
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -58,11 +58,10 @@ function createChart1(data) {
     .attr("r", 5)
     .attr("fill", "steelblue");
 
-  // Add x-axis for the first chart (Price vs. Area)
   svg1
     .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale1));
+    .call(d3.axisBottom(xScale1).tickFormat(d3.format("d"))); 
 
   // Add y-axis for the first chart (Price vs. Area)
   svg1.append("g").call(d3.axisLeft(yScale1));
@@ -70,7 +69,7 @@ function createChart1(data) {
   // Add chart title for the first chart (Price vs. Area)
   svg1
     .append("text")
-    .attr("x", width / 4)
+    .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Scatter Plot: Sale Price Over Time");
@@ -78,7 +77,7 @@ function createChart1(data) {
   // Create the second SVG element for the second chart (Time vs. Income)
   const svg2 = chartWrapper
     .append("svg")
-    .attr("width", width / 2 + margin.left + margin.right)
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -98,7 +97,7 @@ function createChart1(data) {
   svg2
     .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale2));
+    .call(d3.axisBottom(xScale2).tickFormat(d3.format("d"))); 
 
   // Add y-axis for the second chart (Time vs. Income)
   svg2.append("g").call(d3.axisLeft(yScale2));
@@ -106,7 +105,7 @@ function createChart1(data) {
   // Add chart title for the second chart (Time vs. Income)
   svg2
     .append("text")
-    .attr("x", width / 4)
+    .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Scatter Plot: Time vs. Income");
