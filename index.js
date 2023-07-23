@@ -26,52 +26,90 @@ function createChart1(data) {
 
   // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-  const width = 500 - margin.left - margin.right;
+  const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // Filter out data points with missing "year" or "saleprice" values
-  const filteredData = data.filter(d => !isNaN(d.year) && !isNaN(d.saleprice));
+  // Set up the scales for x and y axes for both charts
+  const xScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width / 2]);
+  const yScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.saleprice)).range([height, 0]);
 
-  // Set up the scales for x and y axes
-  const xScale = d3.scaleLinear().domain(d3.extent(filteredData, d => d.year)).range([0, width]);
-  const yScale = d3.scaleLinear().domain(d3.extent(filteredData, d => d.saleprice)).range([height, 0]);
+  const xScale2 = d3.scaleTime().domain(d3.extent(data, d => d.date)).range([width / 2, width]);
+  const yScale2 = d3.scaleLinear().domain(d3.extent(data, d => d.income)).range([height, 0]);
 
-  // Create an SVG element
-  const svg = d3
-    .select("#chartContainer")
+  // Create a wrapper <div> to contain both SVG elements
+  const chartWrapper = d3.select("#chartContainer").append("div").attr("class", "chart-wrapper");
+
+  // Create the first SVG element for the first chart (Price vs. Area)
+  const svg1 = chartWrapper
     .append("svg")
-    .attr("width", width + margin.left + margin.right)
+    .attr("width", width / 2 + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Create the scatter plot
-  svg
+  // Create the scatter plot for the first chart (Price vs. Area)
+  svg1
     .selectAll("circle")
-    .data(filteredData)
+    .data(data)
     .enter()
     .append("circle")
-    .attr("cx", d => xScale(d.year))
-    .attr("cy", d => yScale(d.saleprice))
+    .attr("cx", d => xScale1(d.year))
+    .attr("cy", d => yScale1(d.saleprice))
     .attr("r", 5)
     .attr("fill", "steelblue");
 
-  // Add x-axis
-  svg
+  // Add x-axis for the first chart (Price vs. Area)
+  svg1
     .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale).tickFormat(d3.format("d"))); // Format ticks as integers
+    .call(d3.axisBottom(xScale1));
 
-  // Add y-axis
-  svg.append("g").call(d3.axisLeft(yScale));
+  // Add y-axis for the first chart (Price vs. Area)
+  svg1.append("g").call(d3.axisLeft(yScale1));
 
-  // Add chart title
-  svg
+  // Add chart title for the first chart (Price vs. Area)
+  svg1
     .append("text")
-    .attr("x", width / 2)
+    .attr("x", width / 4)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Scatter Plot: Sale Price vs. Year");
+    .text("Scatter Plot: Sale Price Over Time");
+
+  // Create the second SVG element for the second chart (Time vs. Income)
+  const svg2 = chartWrapper
+    .append("svg")
+    .attr("width", width / 2 + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  // Create the scatter plot for the second chart (Time vs. Income)
+  svg2
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale2(d.date))
+    .attr("cy", d => yScale2(d.income))
+    .attr("r", 5)
+    .attr("fill", "steelblue");
+
+  // Add x-axis for the second chart (Time vs. Income)
+  svg2
+    .append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale2));
+
+  // Add y-axis for the second chart (Time vs. Income)
+  svg2.append("g").call(d3.axisLeft(yScale2));
+
+  // Add chart title for the second chart (Time vs. Income)
+  svg2
+    .append("text")
+    .attr("x", width / 4)
+    .attr("y", 0 - margin.top / 2)
+    .attr("text-anchor", "middle")
+    .text("Scatter Plot: Time vs. Income");
 }
 
 
