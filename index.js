@@ -117,21 +117,21 @@ function createChart1(data) {
     .attr("text-anchor", "middle")
     .text("Time vs. Income");
 
-    const annotationX = width / 4 + 10;
-    const annotationY = height / 2 - 30;
+    const xloc = width / 4 + 10;
+    const yloc = height / 2 - 30;
   
     svg1
       .append("text")
-      .attr("x", annotationX + 75)
-      .attr("y", annotationY + 45)
+      .attr("x", xloc + 75)
+      .attr("y", yloc + 45)
       .text("Positive Correlation")
       .attr("text-anchor", "start")
       .attr("alignment-baseline", "middle")
       .attr("font-size", "12px");
     svg2
       .append("text")
-      .attr("x", annotationX + 75)
-      .attr("y", annotationY + 45)
+      .attr("x", xloc + 75)
+      .attr("y", yloc + 45)
       .text("Positive Correlation")
       .attr("text-anchor", "start")
       .attr("alignment-baseline", "middle")
