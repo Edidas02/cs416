@@ -203,12 +203,14 @@ function createChart2(data) {
     .attr("font-size", "12px");
   
     // Prepare data for the pie chart
-    const pieData = Array.from(
-      d3.group(data, d => d.furnishingstatus),
-      ([category, values]) => ({ category, count: values.length })
-    );
-    
-    console.log(pieData);
+    const furnishingStatusMap = d3.map();
+    data.forEach(d => {
+      const category = d.furnishingstatus;
+      furnishingStatusMap.set(category, (furnishingStatusMap.get(category) || 0) + 1);
+    });
+  
+    // Prepare the data for the pie chart
+    const pieData = furnishingStatusMap.entries().map(({ key: category, value: count }) => ({ category, count }));
   
     // Set up dimensions for the pie chart
     const width2 = 500;
