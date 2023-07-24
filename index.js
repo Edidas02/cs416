@@ -162,8 +162,7 @@ function createChart2(data) {
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-  const annotationX = 1000;
-  const annotationY = 400;
+
 
 
   svg
@@ -193,89 +192,77 @@ function createChart2(data) {
     .attr("text-anchor", "middle")
     .text("Price vs. Area");
   svg.append("text")
-    .attr("x", annotationX)
-    .attr("y", annotationY)
+    .attr("x", 50)
+    .attr("y", 50)
     .text("Positive Correlation")
     .attr("text-anchor", "start")
     .attr("alignment-baseline", "middle")
     .attr("font-size", "12px");
   
-  const dataset = [
+    const data = [
       { furnishingstatus: "furnished", count: 140 },
       { furnishingstatus: "semi-furnished", count: 227 },
       { furnishingstatus: "unfurnished", count: 178 },
-  ];
-    
+    ];
+  
+    // Set up dimensions for the pie chart
+
     const radius = Math.min(width, height) / 2;
-    
-    // Create an SVG element
-    const svg2 = d3
-      .select("#pieChart")
+  
+    // Create an SVG element for the fifth chart
+    const svg3 = d3.select("#chartContainer")
       .append("svg")
       .attr("width", width)
-      .attr("height", height);
-    
-    // Set up the pie layout
-    const pie = d3
-      .pie()
-      .value((d) => d.count)
-      .sort(null);
-    
-    // Generate the arc paths
-    const arc = d3.arc().innerRadius(0).outerRadius(radius);
-    
-    // Set color scale for the pie chart
-    const color = d3.scaleOrdinal().domain(dataset.map((d) => d.furnishingstatus)).range(d3.schemeCategory10);
-    
-    // Create the pie chart
-    const arcs = svg2
-      .selectAll("arc")
-      .data(pie(dataset))
-      .enter()
-      .append("g")
-      .attr("class", "arc")
-      .attr("transform", `translate(${width / 2}, ${height / 2})`);
-    
-    // Draw the pie slices
-    arcs
-      .append("path")
-      .attr("d", arc)
-      .attr("fill", (d) => color(d.data.furnishingstatus));
-    
-    // Add labels for each slice
-    arcs
-      .append("text")
-      .attr("transform", (d) => `translate(${arc.centroid(d)})`)
-      .attr("text-anchor", "middle")
-      .text((d) => d.data.furnishingstatus);
-      
-    const pieX = width / 2 + radius + 20;
-    const pieY = height / 2 - radius;
-
-    const annotationSvg = d3.select("#chartContainer")
-      .append("svg")
-      .attr("width", 200) // Adjust the width as needed
       .attr("height", height)
       .append("g")
-      .attr("transform", `translate(${pieX}, ${pieY})`);
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
   
-    // Add annotation text
-    annotationSvg.append("text")
+    // Set up the pie generator
+    const pie = d3.pie().value(d => d.count);
+  
+    // Generate the arcs for the pie chart
+    const arcs = pie(data);
+  
+    // Set up color scale
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+  
+    // Draw the pie chart slices
+    const arc = d3.arc().innerRadius(0).outerRadius(radius);
+    svg3
+      .selectAll("path")
+      .data(arcs)
+      .enter()
+      .append("path")
+      .attr("d", arc)
+      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus)) // Set fill color based on category
+      .attr("stroke", "white")
+      .attr("stroke-width", 2);
+  
+    // Add chart title for the fifth chart
+    svg3.append("text")
       .attr("x", 0)
-      .attr("y", 0)
-      .text("Furnishing Status is Similarly Distributed")
-      .attr("text-anchor", "start")
-      .attr("alignment-baseline", "middle")
-      .attr("font-size", "12px");
-    
-    // Add a title for the chart
-    svg2
-      .append("text")
-      .attr("x", width / 2)
-      .attr("y", 20)
+      .attr("y", 0 - radius - 10)
       .attr("text-anchor", "middle")
-      .style("font-size", "16px")
-      .text("Furnishing Status Distribution");
+      .text("Pie Chart: Furnishing Status");
+  
+    // Add legend
+    const legend = svg3.selectAll(".legend")
+      .data(arcs)
+      .enter()
+      .append("g")
+      .attr("class", "legend")
+      .attr("transform", (d, i) => `translate(${radius + 20}, ${(i - 1.5) * 20})`);
+  
+    legend.append("rect")
+      .attr("width", 18)
+      .attr("height", 18)
+      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus));
+  
+    legend.append("text")
+      .attr("x", 24)
+      .attr("y", 9)
+      .attr("dy", "0.35em")
+      .text(d => d.data.furnishingstatus);
 }
 
 function createChart3(data) {
