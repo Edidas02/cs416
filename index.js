@@ -58,7 +58,9 @@ function createChart1(data) {
     .attr("cx", d => xScale1(d.year))
     .attr("cy", d => yScale1(d.saleprice))
     .attr("r", 5)
-    .attr("fill", "steelblue");
+    .attr("fill", "steelblue")
+    .on("mouseover", handleMouseOver) 
+    .on("mouseout", handleMouseOut); 
 
   svg1
     .append("g")
@@ -93,7 +95,9 @@ function createChart1(data) {
     .attr("cx", d => xScale2(d.date))
     .attr("cy", d => yScale2(d.income))
     .attr("r", 5)
-    .attr("fill", "steelblue");
+    .attr("fill", "steelblue")
+    .on("mouseover", handleMouseOver) 
+    .on("mouseout", handleMouseOut); 
 
   // Add x-axis for the second chart (Time vs. Income)
   svg2
@@ -165,7 +169,9 @@ function createChart2(data) {
     .attr("cx", d => xScale(d.area))
     .attr("cy", d => yScale(d.price))
     .attr("r", 5)
-    .attr("fill", "steelblue");
+    .attr("fill", "steelblue")
+    .on("mouseover", handleMouseOver) 
+    .on("mouseout", handleMouseOut); 
 
   // Add x-axis
   svg
@@ -231,7 +237,9 @@ function createChart3(data) {
     .attr("y", d => yScale(d.affindex))
     .attr("width", xScale.bandwidth())
     .attr("height", d => height - yScale(d.affindex))
-    .attr("fill", "steelblue");
+    .attr("fill", "steelblue")
+    .on("mouseover", handleMouseOver) 
+    .on("mouseout", handleMouseOut); 
 
   // Add x-axis to the chart
   svg3.append("g")
@@ -263,6 +271,21 @@ function updateScene(sceneNumber) {
   } else if (currentScene === 3) {
     createChart3(data);
   }
+}
+// Function to show the tooltip on mouseover
+function handleMouseOver(event, d) {
+  // Get the data value for the tooltip
+  const value = d.y || d.affindex || "";
+
+  // Show the tooltip
+  tooltip
+    .style("opacity", 1)
+    .style("left", event.pageX + "px")
+    .style("top", event.pageY - 30 + "px")
+    .html(`Value: ${value}`);
+}
+function handleMouseOut() {
+  tooltip.style("opacity", 0);
 }
 
 

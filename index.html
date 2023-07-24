@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Interactive Narrative Visualization</title>
-  <!-- Include D3 library -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <!-- Link the style.css file -->
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- ... Other head elements ... -->
+  <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
-  <div>
-    <!-- Buttons to access different charts -->
-    <button id="chart1Btn">Overview</button>
-    <button id="chart2Btn">Factors</button>
-    <button id="chart3Btn">Affordability</button>
+  <div class="container">
+    <!-- Centered row for the buttons -->
+    <div class="row justify-content-center">
+      <div class="col">
+        <button id="chart1Btn">Overview</button>
+        <button id="chart2Btn">Factors</button>
+        <button id="chart3Btn">Affordability</button>
+      </div>
+    </div>
+    <!-- Add a container for the charts -->
+    <div class="row">
+      <div id="chartContainer"></div>
+    </div>
   </div>
-  <div id="chartContainer">
-    <!-- Container for the chart title -->
-    <div class="chart-title"></div>
-  </div>
+
+  <!-- SVG Element for Marker Definition -->
   <svg width="0" height="0" style="position:absolute;">
     <defs>
       <marker
@@ -33,6 +36,7 @@
       </marker>
     </defs>
   </svg>
-  <script src="index.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
