@@ -202,51 +202,66 @@ function createChart2(data) {
     .attr("alignment-baseline", "middle")
     .attr("font-size", "12px");
   
-    // Prepare data for the pie chart
+  const dataset = [
+      { furnishingstatus: "furnished", count: 140 },
+      { furnishingstatus: "semi-furnished", count: 227 },
+      { furnishingstatus: "unfurnished", count: 178 },
+  ];
+    
+    // Set dimensions for the SVG and the pie chart
+    const width = 500;
+    const height = 400;
+    const radius = Math.min(width, height) / 2;
+    
+    // Create an SVG element
     const svg2 = d3
-      .select("#chartContainer")
+      .select("#pieChart")
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-    // Prepare the data for the pie chart (furnishing status)
-    const furnishingCounts = d3.rollup(data, v => v.length, d => d.furnishingstatus);
-    const pieData = Array.from(furnishingCounts, d => ({ name: d[0], value: d[1] }));
-    console.log(pieData);
-
-    // Set up the pie generator
-    const pie = d3.pie().value(d => d.value);
-
-    // Set up the arc generator
-    const arc = d3.arc().innerRadius(0).outerRadius(Math.min(width, height) / 2 - 20);
-
-    // Create the pie chart slices
-    const slices = svg
-      .selectAll("path")
-      .data(pie(pieData))
+      .attr("width", width)
+      .attr("height", height);
+    
+    // Set up the pie layout
+    const pie = d3
+      .pie()
+      .value((d) => d.count)
+      .sort(null);
+    
+    // Generate the arc paths
+    const arc = d3.arc().innerRadius(0).outerRadius(radius);
+    
+    // Set color scale for the pie chart
+    const color = d3.scaleOrdinal().domain(dataset.map((d) => d.furnishingstatus)).range(d3.schemeCategory10);
+    
+    // Create the pie chart
+    const arcs = svg2
+      .selectAll("arc")
+      .data(pie(dataset))
       .enter()
+      .append("g")
+      .attr("class", "arc")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+    
+    // Draw the pie slices
+    arcs
       .append("path")
       .attr("d", arc)
-      .attr("fill", (d, i) => d3.schemeCategory10[i]);
-
-    // Add chart title
+      .attr("fill", (d) => color(d.data.furnishingstatus));
+    
+    // Add labels for each slice
+    arcs
+      .append("text")
+      .attr("transform", (d) => `translate(${arc.centroid(d)})`)
+      .attr("text-anchor", "middle")
+      .text((d) => d.data.furnishingstatus);
+    
+    // Add a title for the chart
     svg2
       .append("text")
+      .attr("x", width / 2)
+      .attr("y", 20)
       .attr("text-anchor", "middle")
-      .text("Pie Chart: Furnishing Status");
-
-    // Add data labels
-    svg2
-      .selectAll("text.label")
-      .data(pie(pieData))
-      .enter()
-      .append("text")
-      .attr("class", "label")
-      .attr("transform", d => `translate(${arc.centroid(d)})`)
-      .attr("text-anchor", "middle")
-      .text(d => d.data.name);
+      .style("font-size", "16px")
+      .text("Furnishing Status Distribution");
 }
 
 function createChart3(data) {
