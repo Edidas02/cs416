@@ -162,9 +162,6 @@ function createChart2(data) {
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-
-
-
   svg
     .selectAll("circle")
     .data(data)
@@ -262,7 +259,9 @@ function createChart2(data) {
       .attr("x", 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
-      .text(d => d.data.furnishingstatus);
+      .text(d => d.data.furnishingstatus)
+      .attr("fill", "black"); 
+
 }
 
 function createChart3(data) {
