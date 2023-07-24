@@ -225,8 +225,8 @@ function createChart2(data) {
     .enter()
     .append("circle")
     .attr("class", "point")
-    .attr("cx", d => xScale(d.bednum) + xScale.bandwidth() / 2)
-    .attr("cy", d => yScale(d.avgprice))
+    .attr("cx", d => xScale2(d.bednum) + xScale.bandwidth() / 2)
+    .attr("cy", d => yScale2(d.avgprice))
     .attr("r", 5)
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver) // Show tooltip on mouseover
