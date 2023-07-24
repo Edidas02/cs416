@@ -201,52 +201,62 @@ function createChart2(data) {
     .attr("alignment-baseline", "middle")
     .attr("font-size", "12px");
   
+    const furnishedCounts = {};
+    data.forEach(d => {
+      furnishedCounts[d.furnished] = (furnishedCounts[d.furnished] || 0) + 1;
+    });
+  
+    // Convert the count object into an array of objects for D3 pie layout
+    const pieData = Object.keys(furnishedCounts).map(furnished => ({
+      category: furnished,
+      count: furnishedCounts[furnished],
+    }));
+  
+    // Set up the dimensions and margins for the chart
 
-  const xScale2 = d3.scaleBand()
-    .domain(filteredData.map(d => d.bednum))
-    .range([0, width])
-    .padding(0.1);
-
-  const yScale2 = d3.scaleLog()
-    .domain([1, d3.max(filteredData, d => d.avgprice)])
-    .range([height, 0]);
-
-  // Create an SVG element for the fourth chart
-  const svg4 = d3.select("#chartContainer")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-  // Create the scatter plot points
-  svg4.selectAll(".point")
-    .data(filteredData)
-    .enter()
-    .append("circle")
-    .attr("class", "point")
-    .attr("cx", d => xScale2(d.bednum) + xScale2.bandwidth() / 2)
-    .attr("cy", d => yScale2(d.avgprice))
-    .attr("r", 5)
-    .attr("fill", "steelblue")
-    .on("mouseover", handleMouseOver) // Show tooltip on mouseover
-    .on("mouseout", handleMouseOut); // Hide tooltip on mouseout
-
-  // Add x-axis to the chart
-  svg4.append("g")
-    .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
-
-  // Add y-axis to the chart
-  svg4.append("g")
-    .call(d3.axisLeft(yScale).ticks(5, ".1s"));
-
-  // Add chart title for the fourth chart
-  svg4.append("text")
-    .attr("x", width / 2)
-    .attr("y", 0 - margin.top / 2)
-    .attr("text-anchor", "middle")
-    .text("Average Price vs. Number of Bedrooms (Logarithmic Y-Scale)");
+  
+    // Create an SVG element for the fifth chart
+    const svg2 = d3.select("#chartContainer")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+  
+    // Create the pie layout
+    const pie = d3.pie()
+      .value(d => d.count)
+      .sort(null);
+  
+    // Create the arc generator
+    const arc = d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius);
+  
+    // Create the pie chart slices
+    const slices = svg2.selectAll(".slice")
+      .data(pie(pieData))
+      .enter()
+      .append("g")
+      .attr("class", "slice");
+  
+    // Add the arcs to the slices
+    slices.append("path")
+      .attr("d", arc)
+      .attr("fill", (d, i) => d3.schemeCategory10[i]);
+  
+    // Add labels for each slice
+    slices.append("text")
+      .attr("transform", d => `translate(${arc.centroid(d)})`)
+      .attr("dy", "0.35em")
+      .text(d => d.data.category);
+  
+    // Add chart title for the fifth chart
+    svg2.append("text")
+      .attr("x", 0)
+      .attr("y", 0 - radius - 10)
+      .attr("text-anchor", "middle")
+      .text("Furnished Status");
 }
 
 function createChart3(data) {
