@@ -97,8 +97,7 @@ function createChart1(data) {
     .attr("cy", d => yScale2(d.income))
     .attr("r", 5)
     .attr("fill", "steelblue")
-    .on("mouseover", handleMouseOver) 
-    .on("mouseout", handleMouseOut); 
+    .on("mouseover", handleMouseOver);
 
   // Add x-axis for the second chart (Time vs. Income)
   svg2
