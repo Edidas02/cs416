@@ -162,12 +162,7 @@ function createChart2(data) {
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-  const annotationX = width + margin.left + 10; 
-  const annotationY = margin.top + 10; 
 
-
-
-  // Create the scatter plot
   svg
     .selectAll("circle")
     .data(data)
@@ -208,9 +203,6 @@ function createChart2(data) {
       { furnishingstatus: "unfurnished", count: 178 },
   ];
     
-    // Set dimensions for the SVG and the pie chart
-    const width = 500;
-    const height = 400;
     const radius = Math.min(width, height) / 2;
     
     // Create an SVG element
@@ -253,6 +245,25 @@ function createChart2(data) {
       .attr("transform", (d) => `translate(${arc.centroid(d)})`)
       .attr("text-anchor", "middle")
       .text((d) => d.data.furnishingstatus);
+      
+    const annotationX = width2 / 2 + radius + 20;
+    const annotationY = height2 / 2 - radius;
+
+    const annotationSvg = d3.select("#chartContainer")
+      .append("svg")
+      .attr("width", 200) // Adjust the width as needed
+      .attr("height", height)
+      .append("g")
+      .attr("transform", `translate(${annotationX}, ${annotationY})`);
+  
+    // Add annotation text
+    annotationSvg.append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .text("Furnishing Status is Similarly Distributed")
+      .attr("text-anchor", "start")
+      .attr("alignment-baseline", "middle")
+      .attr("font-size", "12px");
     
     // Add a title for the chart
     svg2
@@ -281,9 +292,6 @@ function createChart3(data) {
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-
-  const annotationX = width + margin.left + 10; 
-  const annotationY = margin.top + 10; 
   // Set up the scales for x and y axes
   const xScale = d3.scaleBand()
     .domain(filteredData.map(d => d.afftime))
