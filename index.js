@@ -165,7 +165,6 @@ function createChart2(data) {
   const annotationX = width + margin.left + 10; 
   const annotationY = margin.top + 10; 
 
-  const radius = Math.min(width, height) / 2;
 
 
   // Create the scatter plot
