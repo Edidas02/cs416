@@ -203,20 +203,22 @@ function createChart2(data) {
     .attr("font-size", "12px");
   
     // Prepare data for the pie chart
-  const furnishingStatusData = d3.rollups(
+    const furnishingStatusData = d3.rollups(
       data,
       v => v.length,
       d => d.furnishingstatus
     );
   
+    // Convert the Map-like data structure into an array of objects
+    const pieData = Array.from(furnishingStatusData, ([category, count]) => ({ category, count }));
+  
     // Set up dimensions for the pie chart
     const width2 = 500;
     const height2 = 400;
-    const radius = Math.min(width, height) / 2;
+    const radius = Math.min(width2, height2) / 2;
   
-    // Create an SVG element
-    const svg2 = d3
-      .select("#chartContainer")
+    // Create an SVG element for the fifth chart
+    const svg3 = d3.select("#chartContainer")
       .append("svg")
       .attr("width", width2)
       .attr("height", height2)
@@ -224,31 +226,30 @@ function createChart2(data) {
       .attr("transform", `translate(${width2 / 2}, ${height2 / 2})`);
   
     // Set up the pie generator
-    const pie = d3.pie().value(d => d[1]);
+    const pie = d3.pie().value(d => d.count);
   
     // Generate the arcs for the pie chart
-    const arcs = pie(furnishingStatusData);
+    const arcs = pie(pieData);
   
     // Set up color scale
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
   
     // Draw the pie chart slices
     const arc = d3.arc().innerRadius(0).outerRadius(radius);
-    svg2
-      .selectAll("path")
-      .data(arcs)
-      .enter()
-      .append("path")
-      .attr("d", arc)
-      .attr("fill", (d, i) => colorScale(i));
-  
-    // Add chart title
-    svg2
-      .append("text")
-      .attr("x", 0)
-      .attr("y", 0 - radius - 10)
-      .attr("text-anchor", "middle")
-      .text("Pie Chart: Furnishing Status");
+  svg3
+    .selectAll("path")
+    .data(arcs)
+    .enter()
+    .append("path")
+    .attr("d", arc)
+    .attr("fill", (d, i) => colorScale(d.data.category)); // Set fill color based on category
+
+  // Add chart title for the fifth chart
+  svg3.append("text")
+    .attr("x", 0)
+    .attr("y", 0 - radius - 10)
+    .attr("text-anchor", "middle")
+    .text("Pie Chart: Furnishing Status");
 }
 
 function createChart3(data) {
