@@ -162,6 +162,9 @@ function createChart2(data) {
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
+  const annotationX = 1000;
+  const annotationY = 400;
+
 
   svg
     .selectAll("circle")
@@ -246,15 +249,15 @@ function createChart2(data) {
       .attr("text-anchor", "middle")
       .text((d) => d.data.furnishingstatus);
       
-    const annotationX = width2 / 2 + radius + 20;
-    const annotationY = height2 / 2 - radius;
+    const pieX = width2 / 2 + radius + 20;
+    const pieY = height2 / 2 - radius;
 
     const annotationSvg = d3.select("#chartContainer")
       .append("svg")
       .attr("width", 200) // Adjust the width as needed
       .attr("height", height)
       .append("g")
-      .attr("transform", `translate(${annotationX}, ${annotationY})`);
+      .attr("transform", `translate(${pieX}, ${pieY})`);
   
     // Add annotation text
     annotationSvg.append("text")
