@@ -215,7 +215,7 @@ function createChart2(data) {
     const radius = Math.min(width, height) / 2;
   
     // Create an SVG element
-    const svg = d3
+    const svg2 = d3
       .select("#chartContainer")
       .append("svg")
       .attr("width", width2)
@@ -234,7 +234,7 @@ function createChart2(data) {
   
     // Draw the pie chart slices
     const arc = d3.arc().innerRadius(0).outerRadius(radius);
-    svg
+    svg2
       .selectAll("path")
       .data(arcs)
       .enter()
@@ -243,7 +243,7 @@ function createChart2(data) {
       .attr("fill", (d, i) => colorScale(i));
   
     // Add chart title
-    svg
+    svg2
       .append("text")
       .attr("x", 0)
       .attr("y", 0 - radius - 10)
