@@ -216,7 +216,6 @@ function createChart2(data) {
       return "Unknown"; 
     }
     // Prepare the data for the pie chart
-    const pieData = furnishingStatusMap.entries().map(({ key: category, value: count }) => ({ category, count }));
   
     // Set up dimensions for the pie chart
     const width2 = 500;
