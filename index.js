@@ -243,24 +243,16 @@ function createChart2(data) {
       .text("Pie Chart: Furnishing Status");
   
     // Add legend
-    const legend = svg3.selectAll(".legend")
+    const labelArc = d3.arc().innerRadius(radius * 0.7).outerRadius(radius * 0.7);
+    const labels = chartGroup.selectAll(".pie-label")
       .data(arcs)
       .enter()
-      .append("g")
-      .attr("class", "legend")
-      .attr("transform", (d, i) => `translate(${radius + 20}, ${(i - 1.5) * 20})`);
-  
-    legend.append("rect")
-      .attr("width", 18)
-      .attr("height", 18)
-      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus));
-  
-    legend.append("text")
-      .attr("x", 24)
-      .attr("y", 9)
+      .append("text")
+      .attr("class", "pie-label")
+      .attr("transform", d => `translate(${labelArc.centroid(d)})`)
       .attr("dy", "0.35em")
-      .text(d => d.data.furnishingstatus)
-      .attr("fill", "black"); 
+      .attr("text-anchor", "middle")
+      .text(d => d.data[0]);
 
 }
 
@@ -335,7 +327,7 @@ function createChart3(data) {
   svg3.append("text")
     .attr("x", 25)
     .attr("y", 50)
-    .text("Affordability Index of 100 represents Median Income equal to Median Sale Price")
+    .text("100 Index represents Equal Income and Sale Price")
     .attr("text-anchor", "start")
     .attr("alignment-baseline", "middle")
     .attr("font-size", "12px");
