@@ -209,7 +209,7 @@ function createChart2(data) {
     // Create an SVG element for the fifth chart
     const svg3 = d3.select("#chartContainer")
       .append("svg")
-      .attr("width", width)
+      .attr("width", 800)
       .attr("height", height)
       .append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
@@ -238,21 +238,29 @@ function createChart2(data) {
     // Add chart title for the fifth chart
     svg3.append("text")
       .attr("x", 0)
-      .attr("y", 0 - radius - 10)
+      .attr("y", 180
       .attr("text-anchor", "middle")
       .text("Pie Chart: Furnishing Status");
   
     // Add legend
-    const labelArc = d3.arc().innerRadius(radius * 0.7).outerRadius(radius * 0.7);
-    const labels = chartGroup.selectAll(".pie-label")
+    const legend = svg3.selectAll(".legend")
       .data(arcs)
       .enter()
-      .append("text")
-      .attr("class", "pie-label")
-      .attr("transform", d => `translate(${labelArc.centroid(d)})`)
+      .append("g")
+      .attr("class", "legend")
+      .attr("transform", (d, i) => `translate(${radius + 20}, ${(i - 1.5) * 20})`);
+  
+    legend.append("rect")
+      .attr("width", 18)
+      .attr("height", 18)
+      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus));
+  
+    legend.append("text")
+      .attr("x", 24)
+      .attr("y", 9)
       .attr("dy", "0.35em")
-      .attr("text-anchor", "middle")
-      .text(d => d.data[0]);
+      .text(d => d.data.furnishingstatus)
+      .attr("fill", "black"); 
 
 }
 
