@@ -163,9 +163,6 @@ function createChart2(data) {
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-  const xScale2 = d3.scaleLinear().domain(d3.extent(filteredData, d => d.bednum)).range([0, width]);
-  const yScale2 = d3.scaleLinear().domain(d3.extent(filteredData, d => d.avgprice)).range([height, 0]);
-
   const annotationX = width + margin.left + 10; 
   const annotationY = margin.top + 10; 
 
@@ -205,46 +202,51 @@ function createChart2(data) {
     .attr("font-size", "12px");
   
 
-  const svg2 = d3.select("#chartContainer")
+  const xScale2 = d3.scaleBand()
+    .domain(filteredData.map(d => d.bednum))
+    .range([0, width])
+    .padding(0.1);
+
+  const yScale2 = d3.scaleLog()
+    .domain([1, d3.max(filteredData, d => d.avgprice)])
+    .range([height, 0]);
+
+  // Create an SVG element for the fourth chart
+  const svg4 = d3.select("#chartContainer")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  svg2
-    .selectAll("circle")
-    .data(data)
+  // Create the scatter plot points
+  svg4.selectAll(".point")
+    .data(filteredData)
     .enter()
     .append("circle")
-    .attr("cx", d => xScale2(d.bednum))
-    .attr("cy", d => yScale2(d.avgprice))
+    .attr("class", "point")
+    .attr("cx", d => xScale(d.bednum) + xScale.bandwidth() / 2)
+    .attr("cy", d => yScale(d.avgprice))
     .attr("r", 5)
     .attr("fill", "steelblue")
+    .on("mouseover", handleMouseOver) // Show tooltip on mouseover
+    .on("mouseout", handleMouseOut); // Hide tooltip on mouseout
 
-  // Add x-axis
-  svg2
-    .append("g")
+  // Add x-axis to the chart
+  svg4.append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale2));
+    .call(d3.axisBottom(xScale));
 
-  // Add y-axis
-  svg2.append("g").call(d3.axisLeft(yScale2));
+  // Add y-axis to the chart
+  svg4.append("g")
+    .call(d3.axisLeft(yScale).ticks(5, ".1s"));
 
-  // Add chart title
-  svg2
-    .append("text")
+  // Add chart title for the fourth chart
+  svg4.append("text")
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Price vs. Area");
-  svg2.append("text")
-    .attr("x", annotationX)
-    .attr("y", annotationY)
-    .text("Positive Correlation")
-    .attr("text-anchor", "start")
-    .attr("alignment-baseline", "middle")
-    .attr("font-size", "12px");
+    .text("Average Price vs. Number of Bedrooms (Logarithmic Y-Scale)");
 }
 
 function createChart3(data) {
