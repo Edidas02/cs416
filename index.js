@@ -333,8 +333,8 @@ function createChart3(data) {
     .text("Affordability Index Over Time");
 
   svg3.append("text")
-    .attr("x", 850)
-    .attr("y", annotationY)
+    .attr("x", 50)
+    .attr("y", 50)
     .text("Affordability Index of 100 represents Median Income equal to Median Sale Price")
     .attr("text-anchor", "start")
     .attr("alignment-baseline", "middle")
