@@ -60,9 +60,7 @@ function createChart1(data) {
     .attr("cx", d => xScale1(d.year))
     .attr("cy", d => yScale1(d.saleprice))
     .attr("r", 5)
-    .attr("fill", "steelblue")
-    .on("mouseover", handleMouseOver) 
-    .on("mouseout", handleMouseOut); 
+    .attr("fill", "steelblue");
 
   svg1
     .append("g")
@@ -166,13 +164,16 @@ function createChart2(data) {
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
   const xScale2 = d3.scaleBand()
-  .domain(filteredData.map(d => d.bednum))
-  .range([0, width])
-  .padding(0.1);
+    .domain(filteredData.map(d => d.bednum))
+    .range([0, width])
+    .padding(0.1);
 
   const yScale2 = d3.scaleLinear()
-  .domain([0, d3.max(filteredData, d => d.avgprice)])
-  .range([height, 0]);
+    .domain([0, d3.max(filteredData, d => d.avgprice)])
+    .range([height, 0]);
+
+  const annotationX = width + margin.left + 10; 
+  const annotationY = margin.top + 10; 
 
   // Create the scatter plot
   svg
@@ -201,6 +202,14 @@ function createChart2(data) {
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Price vs. Area");
+  svg.append("text")
+    .attr("x", annotationX)
+    .attr("y", annotationY)
+    .text("Positive Correlation")
+    .attr("text-anchor", "start")
+    .attr("alignment-baseline", "middle")
+    .attr("font-size", "12px");
+  
 
   const svg2 = d3.select("#chartContainer")
     .append("svg")
@@ -209,19 +218,18 @@ function createChart2(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Create the bars for the bar chart
-  svg2.selectAll(".bar")
-    .data(filteredData)
-    .enter()
-    .append("rect")
-    .attr("class", "bar")
-    .attr("x", d => xScale(d.bednum))
-    .attr("y", d => yScale(d.avgprice))
-    .attr("width", xScale.bandwidth())
-    .attr("height", d => height - yScale(d.avgprice))
-    .attr("fill", "steelblue")
-    .on("mouseover", handleMouseOver) 
-    .on("mouseout", handleMouseOut); 
+  // Create the line for the line chart
+  const line = d3.line()
+    .x(d => xScale2(d.bednum) + xScale2.bandwidth() / 2)
+    .y(d => yScale2(d.avgprice));
+
+  svg2.append("path")
+    .datum(filteredData)
+    .attr("class", "line")
+    .attr("d", line)
+    .attr("fill", "none")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 2);
 
   // Add x-axis to the chart
   svg2.append("g")
@@ -237,7 +245,14 @@ function createChart2(data) {
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Average Price vs. Number of Bedrooms");
+    .text("Line Chart: Average Price vs. Number of Bedrooms");
+  svg2.append("text")
+    .attr("x", annotationX)
+    .attr("y", annotationY)
+    .text("Positive Correlation")
+    .attr("text-anchor", "start")
+    .attr("alignment-baseline", "middle")
+    .attr("font-size", "12px");
 }
 
 function createChart3(data) {
@@ -258,6 +273,8 @@ function createChart3(data) {
   const height = 400 - margin.top - margin.bottom;
 
 
+  const annotationX = width + margin.left + 10; 
+  const annotationY = margin.top + 10; 
   // Set up the scales for x and y axes
   const xScale = d3.scaleBand()
     .domain(filteredData.map(d => d.afftime))
@@ -308,6 +325,14 @@ function createChart3(data) {
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Affordability Index Over Time");
+
+  svg3.append("text")
+    .attr("x", annotationX)
+    .attr("y", annotationY)
+    .text("Affordability Index of 100 represents Median Income equal to Median Sale Price")
+    .attr("text-anchor", "start")
+    .attr("alignment-baseline", "middle")
+    .attr("font-size", "12px");
 }
 
 // Function to update the scene and chart
