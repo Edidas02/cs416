@@ -163,14 +163,8 @@ function createChart2(data) {
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
-  const xScale2 = d3.scaleBand()
-    .domain(filteredData.map(d => d.bednum))
-    .range([0, width])
-    .padding(0.1);
-
-  const yScale2 = d3.scaleLinear()
-    .domain([0, d3.max(filteredData, d => d.avgprice)])
-    .range([height, 0]);
+  const xScale2 = d3.scaleLinear().domain(d3.extent(filteredData, d => d.bednum)).range([0, width]);
+  const yScale2 = d3.scaleLinear().domain(d3.extent(filteredData, d => d.avgprice)).range([height, 0]);
 
   const annotationX = width + margin.left + 10; 
   const annotationY = margin.top + 10; 
@@ -218,34 +212,32 @@ function createChart2(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Create the line for the line chart
-  const line = d3.line()
-    .x(d => xScale2(d.bednum) + xScale2.bandwidth() / 2)
-    .y(d => yScale2(d.avgprice));
+  svg2
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale2(d.bednum))
+    .attr("cy", d => yScale2(d.avgprice))
+    .attr("r", 5)
+    .attr("fill", "steelblue")
 
-  svg2.append("path")
-    .datum(filteredData)
-    .attr("class", "line")
-    .attr("d", line)
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 2);
-
-  // Add x-axis to the chart
-  svg2.append("g")
+  // Add x-axis
+  svg2
+    .append("g")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
+    .call(d3.axisBottom(xScale2));
 
-  // Add y-axis to the chart
-  svg2.append("g")
-    .call(d3.axisLeft(yScale));
+  // Add y-axis
+  svg2.append("g").call(d3.axisLeft(yScale2));
 
-  // Add chart title for the fourth chart
-  svg2.append("text")
+  // Add chart title
+  svg2
+    .append("text")
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
-    .text("Line Chart: Average Price vs. Number of Bedrooms");
+    .text("Price vs. Area");
   svg2.append("text")
     .attr("x", annotationX)
     .attr("y", annotationY)
@@ -327,7 +319,7 @@ function createChart3(data) {
     .text("Affordability Index Over Time");
 
   svg3.append("text")
-    .attr("x", annotationX)
+    .attr("x", 850)
     .attr("y", annotationY)
     .text("Affordability Index of 100 represents Median Income equal to Median Sale Price")
     .attr("text-anchor", "start")
