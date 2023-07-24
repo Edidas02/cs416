@@ -210,7 +210,16 @@ function createChart2(data) {
     );
     
     // Convert the Map-like data structure into an array of objects
-    const pieData = Array.from(furnishingStatusData, ([category, count]) => ({ category, count }));
+    const furnishedCount = data.filter(d => d.furnishingstatus === "furnished").length;
+    const semiFurnishedCount = data.filter(d => d.furnishingstatus === "semi-furnished").length;
+    const unfurnishedCount = data.filter(d => d.furnishingstatus === "unfurnished").length;
+  
+    // Prepare the data for the pie chart
+    const pieData = [
+      { category: "Furnished", count: furnishedCount },
+      { category: "Semi-Furnished", count: semiFurnishedCount },
+      { category: "Unfurnished", count: unfurnishedCount },
+    ];    
     console.log(pieData);
   
     // Set up dimensions for the pie chart
