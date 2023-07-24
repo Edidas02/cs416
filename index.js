@@ -249,8 +249,8 @@ function createChart2(data) {
       .attr("text-anchor", "middle")
       .text((d) => d.data.furnishingstatus);
       
-    const pieX = width2 / 2 + radius + 20;
-    const pieY = height2 / 2 - radius;
+    const pieX = width / 2 + radius + 20;
+    const pieY = height / 2 - radius;
 
     const annotationSvg = d3.select("#chartContainer")
       .append("svg")
