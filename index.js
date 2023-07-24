@@ -158,9 +158,21 @@ function createChart2(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+  const filteredData = data.filter(d => !isNaN(d.avgprice) && d.bednum);
+
+
   // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
+
+  const xScale2 = d3.scaleBand()
+  .domain(filteredData.map(d => d.bednum))
+  .range([0, width])
+  .padding(0.1);
+
+  const yScale2 = d3.scaleLinear()
+  .domain([0, d3.max(filteredData, d => d.avgprice)])
+  .range([height, 0]);
 
   // Create the scatter plot
   svg
@@ -172,8 +184,6 @@ function createChart2(data) {
     .attr("cy", d => yScale(d.price))
     .attr("r", 5)
     .attr("fill", "steelblue")
-    .on("mouseover", handleMouseOver) 
-    .on("mouseout", handleMouseOut); 
 
   // Add x-axis
   svg
@@ -191,6 +201,43 @@ function createChart2(data) {
     .attr("y", 0 - margin.top / 2)
     .attr("text-anchor", "middle")
     .text("Price vs. Area");
+
+  const svg2 = d3.select("#chartContainer")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  // Create the bars for the bar chart
+  svg2.selectAll(".bar")
+    .data(filteredData)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("x", d => xScale(d.bednum))
+    .attr("y", d => yScale(d.avgprice))
+    .attr("width", xScale.bandwidth())
+    .attr("height", d => height - yScale(d.avgprice))
+    .attr("fill", "steelblue")
+    .on("mouseover", handleMouseOver) 
+    .on("mouseout", handleMouseOut); 
+
+  // Add x-axis to the chart
+  svg2.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale));
+
+  // Add y-axis to the chart
+  svg2.append("g")
+    .call(d3.axisLeft(yScale));
+
+  // Add chart title for the fourth chart
+  svg2.append("text")
+    .attr("x", width / 2)
+    .attr("y", 0 - margin.top / 2)
+    .attr("text-anchor", "middle")
+    .text("Average Price vs. Number of Bedrooms");
 }
 
 function createChart3(data) {
