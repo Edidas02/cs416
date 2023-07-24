@@ -211,18 +211,18 @@ function createChart2(data) {
     );
   
     // Set up dimensions for the pie chart
-    const width = 500;
-    const height = 400;
+    const width2 = 500;
+    const height2 = 400;
     const radius = Math.min(width, height) / 2;
   
     // Create an SVG element
     const svg = d3
       .select("#chartContainer")
       .append("svg")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", width2)
+      .attr("height", height2)
       .append("g")
-      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+      .attr("transform", `translate(${width2 / 2}, ${height2 / 2})`);
   
     // Set up the pie generator
     const pie = d3.pie().value(d => d[1]);
