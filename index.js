@@ -204,12 +204,8 @@ function createChart2(data) {
   
     // Prepare data for the pie chart
     const pieData = Array.from(
-      d3.rollups(
-        data,
-        v => v.length,
-        d => d.furnishingstatus
-      ),
-      ([category, count]) => ({ category, count })
+      d3.group(data, d => d.furnishingstatus),
+      ([category, values]) => ({ category, count: values.length })
     );
     
     console.log(pieData);
