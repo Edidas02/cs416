@@ -14,6 +14,7 @@ d3.csv("Housing.csv").then(dataset => {
     d.saleprice = +d.saleprice;
     d.affindex = +d.affindex;
     d.afftime = +d.afftime;
+    d.furnishingstatus = +d.furnishingstatus
     // Add other conversions as needed for other numeric columns
   });
   data = dataset;
@@ -204,13 +205,13 @@ function createChart2(data) {
   
     const furnishedCounts = {};
     data.forEach(d => {
-      furnishedCounts[d.furnished] = (furnishedCounts[d.furnished] || 0) + 1;
+      furnishedCounts[d.furnishingstatus] = (furnishedCounts[d.furnishingstatus] || 0) + 1;
     });
   
     // Convert the count object into an array of objects for D3 pie layout
-    const pieData = Object.keys(furnishedCounts).map(furnished => ({
-      category: furnished,
-      count: furnishedCounts[furnished],
+    const pieData = Object.keys(furnishedCounts).map(furnishingstatus => ({
+      category: furnishingstatus,
+      count: furnishedCounts[furnishingstatus],
     }));
   
     // Set up the dimensions and margins for the chart
