@@ -208,9 +208,10 @@ function createChart2(data) {
       v => v.length,
       d => d.furnishingstatus
     );
-  
+    
     // Convert the Map-like data structure into an array of objects
     const pieData = Array.from(furnishingStatusData, ([category, count]) => ({ category, count }));
+    console.log(pieData);
   
     // Set up dimensions for the pie chart
     const width2 = 500;
@@ -236,20 +237,22 @@ function createChart2(data) {
   
     // Draw the pie chart slices
     const arc = d3.arc().innerRadius(0).outerRadius(radius);
-  svg3
-    .selectAll("path")
-    .data(arcs)
-    .enter()
-    .append("path")
-    .attr("d", arc)
-    .attr("fill", (d, i) => colorScale(d.data.category)); // Set fill color based on category
-
-  // Add chart title for the fifth chart
-  svg3.append("text")
-    .attr("x", 0)
-    .attr("y", 0 - radius - 10)
-    .attr("text-anchor", "middle")
-    .text("Pie Chart: Furnishing Status");
+    svg3
+      .selectAll("path")
+      .data(arcs)
+      .enter()
+      .append("path")
+      .attr("d", arc)
+      .attr("fill", (d, i) => colorScale(d.data.category)) // Set fill color based on category
+      .attr("stroke", "white")
+      .attr("stroke-width", 2);
+  
+    // Add chart title for the fifth chart
+    svg3.append("text")
+      .attr("x", 0)
+      .attr("y", 0 - radius - 10)
+      .attr("text-anchor", "middle")
+      .text("Pie Chart: Furnishing Status");
 }
 
 function createChart3(data) {
