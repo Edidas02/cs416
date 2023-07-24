@@ -156,8 +156,6 @@ function createChart2(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const filteredData = data.filter(d => !isNaN(d.avgprice) && d.bednum);
-
 
   // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
@@ -165,6 +163,9 @@ function createChart2(data) {
 
   const annotationX = width + margin.left + 10; 
   const annotationY = margin.top + 10; 
+
+  const radius = Math.min(width, height) / 2;
+
 
   // Create the scatter plot
   svg
