@@ -2,6 +2,8 @@
 
 let data;
 let data2;
+
+
 d3.csv("Housing.csv").then(dataset => {
   // Convert data types if necessary
   dataset.forEach(d => {
@@ -272,7 +274,11 @@ function updateScene(sceneNumber) {
     createChart3(data);
   }
 }
-// Function to show the tooltip on mouseover
+const tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+
 function handleMouseOver(event, d) {
   // Get the data value for the tooltip
   const value = d.y || d.affindex || "";
