@@ -199,7 +199,7 @@ function createChart2(data) {
     .attr("alignment-baseline", "middle")
     .attr("font-size", "12px");
   
-    const data = [
+    const dataset = [
       { furnishingstatus: "furnished", count: 140 },
       { furnishingstatus: "semi-furnished", count: 227 },
       { furnishingstatus: "unfurnished", count: 178 },
@@ -221,7 +221,7 @@ function createChart2(data) {
     const pie = d3.pie().value(d => d.count);
   
     // Generate the arcs for the pie chart
-    const arcs = pie(data);
+    const arcs = pie(dataset);
   
     // Set up color scale
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
@@ -234,7 +234,7 @@ function createChart2(data) {
       .enter()
       .append("path")
       .attr("d", arc)
-      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus)) // Set fill color based on category
+      .attr("fill", (d, i) => colorScale(d.dataset.furnishingstatus)) // Set fill color based on category
       .attr("stroke", "white")
       .attr("stroke-width", 2);
   
@@ -256,13 +256,13 @@ function createChart2(data) {
     legend.append("rect")
       .attr("width", 18)
       .attr("height", 18)
-      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus));
+      .attr("fill", (d, i) => colorScale(d.dataset.furnishingstatus));
   
     legend.append("text")
       .attr("x", 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
-      .text(d => d.data.furnishingstatus);
+      .text(d => d.dataset.furnishingstatus);
 }
 
 function createChart3(data) {
