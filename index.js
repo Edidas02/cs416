@@ -234,7 +234,7 @@ function createChart2(data) {
       .enter()
       .append("path")
       .attr("d", arc)
-      .attr("fill", (d, i) => colorScale(d.dataset.furnishingstatus)) // Set fill color based on category
+      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus)) // Set fill color based on category
       .attr("stroke", "white")
       .attr("stroke-width", 2);
   
@@ -256,13 +256,13 @@ function createChart2(data) {
     legend.append("rect")
       .attr("width", 18)
       .attr("height", 18)
-      .attr("fill", (d, i) => colorScale(d.dataset.furnishingstatus));
+      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus));
   
     legend.append("text")
       .attr("x", 24)
       .attr("y", 9)
       .attr("dy", "0.35em")
-      .text(d => d.dataset.furnishingstatus);
+      .text(d => d.data.furnishingstatus);
 }
 
 function createChart3(data) {
