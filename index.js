@@ -238,7 +238,7 @@ function createChart2(data) {
     // Add chart title for the fifth chart
     svg3.append("text")
       .attr("x", 0)
-      .attr("y", 180
+      .attr("y", 180)
       .attr("text-anchor", "middle")
       .text("Pie Chart: Furnishing Status");
   
