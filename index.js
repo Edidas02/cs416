@@ -192,11 +192,7 @@ function createChart3(data) {
   console.log(data);
 
   // Filter out empty values in the data
-  const parseDate = d3.timeParse("%Y");
-  data.forEach(d => {
-    d.afftime = parseDate(d.afftime);
-    d.affindex = +d.affindex;
-  });
+
 
   // Filter out data points with empty "afftime" or "affindex"
   const filteredData = data.filter(d => !isNaN(d.affindex) && d.afftime);
