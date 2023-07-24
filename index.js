@@ -210,7 +210,7 @@ function createChart2(data) {
     const svg3 = d3.select("#chartContainer")
       .append("svg")
       .attr("width", 800)
-      .attr("height", height)
+      .attr("height", 400)
       .append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
   
@@ -240,7 +240,7 @@ function createChart2(data) {
       .attr("x", 0)
       .attr("y", 180)
       .attr("text-anchor", "middle")
-      .text("Pie Chart: Furnishing Status");
+      .text("Furnishing Status");
   
     // Add legend
     const legend = svg3.selectAll(".legend")
