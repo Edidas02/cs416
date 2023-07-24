@@ -203,12 +203,18 @@ function createChart2(data) {
     .attr("font-size", "12px");
   
     // Prepare data for the pie chart
-    const furnishingStatusMap = d3.map();
-    data.forEach(d => {
-      const category = d.furnishingstatus;
-      furnishingStatusMap.set(category, (furnishingStatusMap.get(category) || 0) + 1);
-    });
+    const pieData = Array.from(
+      d3.group(data, d => getFurnishingCategory(d.furnishingstatus)),
+      ([category, values]) => ({ category, count: values.length })
+    );
   
+    // Function to categorize furnishingstatus
+    function getFurnishingCategory(status) {
+      if (status === "furnished") return "Furnished";
+      if (status === "unfurnished") return "Unfurnished";
+      if (status === "semi-furnished") return "Semi-furnished";
+      return "Unknown"; 
+    }
     // Prepare the data for the pie chart
     const pieData = furnishingStatusMap.entries().map(({ key: category, value: count }) => ({ category, count }));
   
