@@ -214,6 +214,7 @@ function createChart2(data) {
     // Prepare the data for the pie chart (furnishing status)
     const furnishingCounts = d3.rollup(data, v => v.length, d => d.furnishingstatus);
     const pieData = Array.from(furnishingCounts, d => ({ name: d[0], value: d[1] }));
+    console.log(pieData);
 
     // Set up the pie generator
     const pie = d3.pie().value(d => d.value);
