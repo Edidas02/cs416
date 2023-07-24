@@ -190,7 +190,7 @@ function createChart2(data) {
     .text("Price vs. Area");
   svg.append("text")
     .attr("x", 50)
-    .attr("y", 50)
+    .attr("y", 75)
     .text("Positive Correlation")
     .attr("text-anchor", "start")
     .attr("alignment-baseline", "middle")
@@ -333,7 +333,7 @@ function createChart3(data) {
     .text("Affordability Index Over Time");
 
   svg3.append("text")
-    .attr("x", 50)
+    .attr("x", 25)
     .attr("y", 50)
     .text("Affordability Index of 100 represents Median Income equal to Median Sale Price")
     .attr("text-anchor", "start")
