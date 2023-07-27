@@ -1,11 +1,9 @@
-// Load the Housing.csv dataset
 
 let data;
 let data2;
 
 
 d3.csv("Housing.csv").then(dataset => {
-  // Convert data types if necessary
   dataset.forEach(d => {
     d.price = +d.price;
     d.area = +d.area;
@@ -15,36 +13,27 @@ d3.csv("Housing.csv").then(dataset => {
     d.affindex = +d.affindex;
     d.afftime = +d.afftime;
     d.furnishingstatus = +d.furnishingstatus
-    // Add other conversions as needed for other numeric columns
   });
   data = dataset;
 
-  // Set up parameters
-  let currentScene = 1; // Track the current scene
-  const scenes = 3; // Total number of scenes
+  let currentScene = 1; 
+  const scenes = 3; 
 
-// Function to create Chart 1 - Scatter Plot (Price vs. Area)
 function createChart1(data) {
-// Function to create Chart 4 - Scatter Plot (Sale Price vs. Year)
-  // Clear the previous chart
   d3.select("#chartContainer").html("");
 
-  // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // Set up the scales for x and y axes for both charts
   const xScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.year)).range([0, width]);
   const yScale1 = d3.scaleLinear().domain(d3.extent(data, d => d.saleprice)).range([height, 0]);
 
   const xScale2 = d3.scaleLinear().domain(d3.extent(data, d => d.date)).range([0, width]);
   const yScale2 = d3.scaleLinear().domain(d3.extent(data, d => d.income)).range([height, 0]);
 
-  // Create a wrapper <div> to contain both SVG elements
   const chartWrapper = d3.select("#chartContainer").append("div").attr("class", "chart-wrapper");
 
-  // Create the first SVG element for the first chart (Price vs. Area)
   const svg1 = chartWrapper
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -52,7 +41,6 @@ function createChart1(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Create the scatter plot for the first chart (Price vs. Area)
   svg1
     .selectAll("circle")
     .data(data)
@@ -68,10 +56,8 @@ function createChart1(data) {
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(xScale1).tickFormat(d3.format("d"))); 
 
-  // Add y-axis for the first chart (Price vs. Area)
   svg1.append("g").call(d3.axisLeft(yScale1));
 
-  // Add chart title for the first chart (Price vs. Area)
   svg1
     .append("text")
     .attr("x", width / 2)
@@ -79,7 +65,6 @@ function createChart1(data) {
     .attr("text-anchor", "middle")
     .text("Housing Sale Price Over Time");
 
-  // Create the second SVG element for the second chart (Time vs. Income)
   const svg2 = chartWrapper
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -87,7 +72,6 @@ function createChart1(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Create the scatter plot for the second chart (Time vs. Income)
   svg2
     .selectAll("circle")
     .data(data)
@@ -99,16 +83,13 @@ function createChart1(data) {
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver);
 
-  // Add x-axis for the second chart (Time vs. Income)
   svg2
     .append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(xScale2).tickFormat(d3.format("d"))); 
 
-  // Add y-axis for the second chart (Time vs. Income)
   svg2.append("g").call(d3.axisLeft(yScale2));
 
-  // Add chart title for the second chart (Time vs. Income)
   svg2
     .append("text")
     .attr("x", width / 2)
@@ -142,12 +123,10 @@ function createChart2(data) {
   // Clear the previous chart
   d3.select("#chartContainer").html("");
 
-  // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
   const width = 500 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // Create an SVG element
   const svg = d3
     .select("#chartContainer")
     .append("svg")
@@ -157,7 +136,6 @@ function createChart2(data) {
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 
-  // Set up the scales for x and y axes
   const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.area)).range([0, width]);
   const yScale = d3.scaleLinear().domain(d3.extent(data, d => d.price)).range([height, 0]);
 
@@ -171,16 +149,13 @@ function createChart2(data) {
     .attr("r", 5)
     .attr("fill", "steelblue")
 
-  // Add x-axis
   svg
     .append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(xScale));
 
-  // Add y-axis
   svg.append("g").call(d3.axisLeft(yScale));
 
-  // Add chart title
   svg
     .append("text")
     .attr("x", width / 2)
@@ -201,11 +176,9 @@ function createChart2(data) {
       { furnishingstatus: "unfurnished", count: 178 },
     ];
   
-    // Set up dimensions for the pie chart
 
     const radius = Math.min(width, height) / 2;
   
-    // Create an SVG element for the fifth chart
     const svg3 = d3.select("#chartContainer")
       .append("svg")
       .attr("width", 800)
@@ -213,16 +186,12 @@ function createChart2(data) {
       .append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
   
-    // Set up the pie generator
     const pie = d3.pie().value(d => d.count);
   
-    // Generate the arcs for the pie chart
     const arcs = pie(dataset);
   
-    // Set up color scale
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
   
-    // Draw the pie chart slices
     const arc = d3.arc().innerRadius(0).outerRadius(radius);
     svg3
       .selectAll("path")
@@ -230,18 +199,16 @@ function createChart2(data) {
       .enter()
       .append("path")
       .attr("d", arc)
-      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus)) // Set fill color based on category
+      .attr("fill", (d, i) => colorScale(d.data.furnishingstatus)) 
       .attr("stroke", "white")
       .attr("stroke-width", 2);
   
-    // Add chart title for the fifth chart
     svg3.append("text")
       .attr("x", 0)
       .attr("y", 180)
       .attr("text-anchor", "middle")
       .text("Furnishing Status");
   
-    // Add legend
     const legend = svg3.selectAll(".legend")
       .data(arcs)
       .enter()
@@ -264,23 +231,18 @@ function createChart2(data) {
 }
 
 function createChart3(data) {
-  // Clear the previous chart
   d3.select("#chartContainer").html("");
   console.log("Creating Chart 3");
   console.log(data);
 
-  // Filter out empty values in the data
 
 
-  // Filter out data points with empty "afftime" or "affindex"
   const filteredData = data.filter(d => !isNaN(d.affindex) && d.afftime);
   console.log(filteredData);
-  // Set up the dimensions and margins for the chart
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  // Set up the scales for x and y axes
   const xScale = d3.scaleBand()
     .domain(filteredData.map(d => d.afftime))
     .range([0, width])
@@ -290,7 +252,6 @@ function createChart3(data) {
     .domain([0, d3.max(filteredData, d => d.affindex)])
     .range([height, 0]);
 
-  // Create an SVG element for the third chart
   const svg3 = d3.select("#chartContainer")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -298,7 +259,6 @@ function createChart3(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // Create the bars for the bar chart
   svg3.selectAll(".bar")
     .data(filteredData)
     .enter()
@@ -312,7 +272,6 @@ function createChart3(data) {
     .on("mouseover", handleMouseOver) 
     .on("mouseout", handleMouseOut); 
 
-  // Add x-axis to the chart
   svg3.append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(xScale))
@@ -320,11 +279,9 @@ function createChart3(data) {
     .attr("transform", "rotate(-45)")
     .attr("text-anchor", "end");
 
-  // Add y-axis to the chart
   svg3.append("g")
     .call(d3.axisLeft(yScale));
 
-  // Add chart title for the third chart
   svg3.append("text")
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 2)
@@ -340,7 +297,6 @@ function createChart3(data) {
     .attr("font-size", "12px");
 }
 
-// Function to update the scene and chart
 function updateScene(sceneNumber) {
   currentScene = sceneNumber;
   if (currentScene === 1) {
@@ -357,10 +313,8 @@ const tooltip = d3.select("body")
   .style("opacity", 0);
 
 function handleMouseOver(event, d) {
-  // Get the data value for the tooltip
   const value = d.y || d.affindex || "";
 
-  // Show the tooltip
   tooltip
     .style("opacity", 1)
     .style("left", event.pageX + "px")
@@ -372,7 +326,6 @@ function handleMouseOut() {
 }
 
 
-  // Initial chart creation (default to Chart 1)
   updateScene(1);
 
   d3.select("#chart1Btn").on("click", function () {
