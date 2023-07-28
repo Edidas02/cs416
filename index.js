@@ -287,17 +287,15 @@ const tooltipText = tooltip.append("text")
       const tooltipWidth = 120;
       const tooltipHeight = 40;
 
-      const [mouseX, mouseY] = d3.mouse(this); 
-      const svgOffset = svg.node().getBoundingClientRect();
+      const mouseX = d3.event.pageX; 
+      const mouseY = d3.event.pageY; 
+      const tooltipWidth = 120;
+      const tooltipHeight = 40;
 
-      const tooltipX = svgOffset.left + mouseX;
-      const tooltipY = svgOffset.top + mouseY - tooltipHeight - 10;
-      console.log(mouseX);
       tooltip
-        .style("left", tooltipX + "px")
-        .style("top", tooltipY - 10 + "px") // Adjust the vertical position of the tooltip
+        .style("left", mouseX + "px")
+        .style("top", mouseY - tooltipHeight - 10 + "px")
         .style("display", "block")
-        .style("opacity", 1)
         .html(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
     .on("mouseout", handleMouseOut);
