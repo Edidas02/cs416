@@ -289,8 +289,7 @@ const tooltipText = tooltip.append("text")
 
       const mouseX = d3.event.pageX; 
       const mouseY = d3.event.pageY; 
-      const tooltipWidth = 120;
-      const tooltipHeight = 40;
+
 
       tooltip
         .style("left", mouseX + "px")
