@@ -287,8 +287,8 @@ const tooltipText = tooltip.append("text")
       const tooltipWidth = 120;
       const tooltipHeight = 40;
 
-      const mouseX = d3.event.pageX; 
-      const mouseY = d3.event.pageY; 
+      const mouseX = event.pageX; 
+      const mouseY = event.pageY; 
 
 
       tooltip
