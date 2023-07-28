@@ -287,19 +287,25 @@ const tooltipText = tooltip.append("text")
       const tooltipWidth = 120;
       const tooltipHeight = 40;
 
-      const [mouseX, mouseY] = d3.pointer(d, this); // Get mouse coordinates relative to the current bar element
-      tooltip
-        .style("left", mouseX + "px")
-        .style("top", mouseY - 10 + "px") // Adjust the vertical position of the tooltip
-        .style("display", "block")
-        .html(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`)
-        .append("rect") // Append a rectangle to the tooltip
+      const [mouseX, mouseY] = d3.pointer(d, this); 
+      console.log(mouseX);
+      svg.append("rect")
+        .attr("class", "tooltip")
+        .attr("x", mouseX - tooltipWidth / 2)
+        .attr("y", mouseY - tooltipHeight - 10)
         .attr("width", tooltipWidth)
         .attr("height", tooltipHeight)
         .attr("fill", "white")
         .attr("stroke", "black")
         .attr("rx", 5)
         .attr("ry", 5);
+      svg.append("text")
+        .attr("class", "tooltip-text")
+        .attr("x", mouseX)
+        .attr("y", mouseY - tooltipHeight / 2 - 5)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        .text(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
     .on("mouseout", function() {
       tooltip.style("display", "none");
