@@ -284,13 +284,12 @@ const tooltipText = tooltip.append("text")
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver) 
     .on("click", function(event,d) {
-      const mouseX = event.clientX - chartGroup.node().getBoundingClientRect().x; 
-      const mouseY = event.clientY - chartGroup.node().getBoundingClientRect().y; 
       console.log(d.affindex);
-      tooltipText.text(`This was ${d.affindex > 130 ? "affordable" : "not affordable"} for most`)
-        .attr("x",mouseX)
-        .attr("y", mouseY - 10) 
-        .style("display", "block");
+      tooltip
+        .style("left", d3.event.pageX + "px")
+        .style("top", d3.event.pageY - 10 + "px") 
+        .style("display", "block")
+        .html(`This is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
     .on("mouseout", function() {
       tooltip.style("display", "none");
