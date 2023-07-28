@@ -295,6 +295,7 @@ const tooltipText = tooltip.append("text")
         .style("left", mouseX + "px")
         .style("top", mouseY - tooltipHeight - 10 + "px")
         .style("display", "block")
+        .style("opacity", 1)
         .html(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
     .on("mouseout", handleMouseOut);
