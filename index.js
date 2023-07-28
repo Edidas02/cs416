@@ -259,7 +259,7 @@ function createChart3(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const tooltip = svg4.append("g").attr("class", "tooltip").style("display", "none");
+  const tooltip = svg3.append("g").attr("class", "tooltip").style("display", "none");
 
 tooltip.append("rect")
   .attr("width", 150)
