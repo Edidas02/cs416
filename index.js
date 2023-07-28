@@ -292,7 +292,7 @@ const tooltipText = tooltip.append("text")
     })
     .on("mouseout", function() {
       tooltip.style("display", "none");
-      handleMouseOut;
+      tooltip.style("opacity", 0);
     });
 
   svg3.append("g")
