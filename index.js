@@ -238,7 +238,6 @@ function createChart3(data) {
 
 
   const filteredData = data.filter(d => !isNaN(d.affindex) && d.afftime);
-  console.log(filteredData);
   const margin = { top: 20, right: 20, bottom: 50, left: 70 };
   const width = 800 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
@@ -285,10 +284,15 @@ const tooltipText = tooltip.append("text")
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver) 
     .on("click", function(d) {
-      tooltipText.text(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
-      tooltip.style("display", "block").attr("transform", `translate(${xScale(d.year) + xScale.bandwidth() / 2}, ${yScale(d.affindex) - 60})`);
+      tooltipText.text(`This is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`)
+        .attr("x", xScale(d.afftime) + xScale.bandwidth() / 2)
+        .attr("y", yScale(d.affindex) - 10) 
+        .style("display", "block");
     })
-    .on("mouseout", handleMouseOut);
+    .on("mouseout", function() {
+      tooltip.style("display", "none");
+      handleMouseOut;
+    });
 
   svg3.append("g")
     .attr("transform", `translate(0, ${height})`)
