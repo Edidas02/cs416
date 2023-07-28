@@ -283,11 +283,12 @@ const tooltipText = tooltip.append("text")
     .on("mouseover", handleMouseOver) 
     .on("click", function(event,d) {
       console.log(d.affindex);
+      const [mouseX, mouseY] = d3.pointer(d, this); // Get mouse coordinates relative to the current bar element
       tooltip
-        .style("left", d3.event.pageX + "px")
-        .style("top", d3.event.pageY - 10 + "px") 
+        .style("left", mouseX + "px")
+        .style("top", mouseY - 10 + "px") // Adjust the vertical position of the tooltip
         .style("display", "block")
-        .html(`This is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
+        .html(`With an affordability index of ${affindex}, this is ${affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
     .on("mouseout", function() {
       tooltip.style("display", "none");
@@ -317,6 +318,7 @@ const tooltipText = tooltip.append("text")
     .attr("text-anchor", "start")
     .attr("alignment-baseline", "middle")
     .attr("font-size", "12px");
+    
 }
 
 function updateScene(sceneNumber) {
