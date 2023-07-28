@@ -284,7 +284,9 @@ const tooltipText = tooltip.append("text")
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver) 
     .on("click", function(d) {
-      const [mouseX, mouseY] = d3.mouse(this); 
+      const event = d3.event;
+      const mouseX = event.clientX - chartGroup.node().getBoundingClientRect().x; 
+      const mouseY = event.clientY - chartGroup.node().getBoundingClientRect().y; 
       tooltipText.text(`This is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`)
         .attr("x",mouseX)
         .attr("y", mouseY - 10) 
