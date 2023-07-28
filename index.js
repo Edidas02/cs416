@@ -288,7 +288,7 @@ const tooltipText = tooltip.append("text")
         .style("left", mouseX + "px")
         .style("top", mouseY - 10 + "px") // Adjust the vertical position of the tooltip
         .style("display", "block")
-        .html(`With an affordability index of ${affindex}, this is ${affindex > 130 ? "affordable" : "not affordable"} for most`);
+        .html(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
     .on("mouseout", function() {
       tooltip.style("display", "none");
