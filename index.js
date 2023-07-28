@@ -286,6 +286,7 @@ const tooltipText = tooltip.append("text")
     .on("click", function(event,d) {
       const mouseX = event.clientX - chartGroup.node().getBoundingClientRect().x; 
       const mouseY = event.clientY - chartGroup.node().getBoundingClientRect().y; 
+      console.log(d.affindex);
       tooltipText.text(`This is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`)
         .attr("x",mouseX)
         .attr("y", mouseY - 10) 
