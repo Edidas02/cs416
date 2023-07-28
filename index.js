@@ -284,9 +284,10 @@ const tooltipText = tooltip.append("text")
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver) 
     .on("click", function(d) {
+      const [mouseX, mouseY] = d3.mouse(this); 
       tooltipText.text(`This is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`)
-        .attr("x", xScale(d.afftime) + xScale.bandwidth() / 2)
-        .attr("y", yScale(d.affindex) - 10) 
+        .attr("x",mouseX)
+        .attr("y", mouseY - 10) 
         .style("display", "block");
     })
     .on("mouseout", function() {
