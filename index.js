@@ -256,7 +256,10 @@ function createChart3(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const tooltip = svg3.append("g").attr("class", "tooltip").style("display", "none");
+  const tooltip = d3.select("#chartContainer")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("display", "none");
 
 tooltip.append("rect")
   .attr("width", 150)
@@ -291,7 +294,7 @@ const tooltipText = tooltip.append("text")
       const mouseY = event.pageY; 
 
 
-      tooltip
+    tooltip
         .style("left", mouseX + "px")
         .style("top", mouseY - tooltipHeight - 10 + "px")
         .style("display", "block")
