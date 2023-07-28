@@ -80,9 +80,7 @@ function createChart1(data) {
     .attr("cx", d => xScale2(d.date))
     .attr("cy", d => yScale2(d.income))
     .attr("r", 5)
-    .attr("fill", "steelblue")
-    .on("mouseover", handleMouseOver);
-
+    .attr("fill", "steelblue");
   svg2
     .append("g")
     .attr("transform", `translate(0, ${height})`)
