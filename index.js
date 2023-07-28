@@ -259,6 +259,20 @@ function createChart3(data) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+  const tooltip = svg4.append("g").attr("class", "tooltip").style("display", "none");
+
+tooltip.append("rect")
+  .attr("width", 150)
+  .attr("height", 50)
+  .attr("fill", "white")
+  .attr("stroke", "black")
+  .attr("rx", 5)
+  .attr("ry", 5);
+
+const tooltipText = tooltip.append("text")
+  .attr("x", 10)
+  .attr("y", 25);
+
   svg3.selectAll(".bar")
     .data(filteredData)
     .enter()
@@ -270,7 +284,11 @@ function createChart3(data) {
     .attr("height", d => height - yScale(d.affindex))
     .attr("fill", "steelblue")
     .on("mouseover", handleMouseOver) 
-    .on("mouseout", handleMouseOut); 
+    .on("click", function(d) {
+      tooltipText.text(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
+      tooltip.style("display", "block").attr("transform", `translate(${xScale(d.year) + xScale.bandwidth() / 2}, ${yScale(d.affindex) - 60})`);
+    })
+    .on("mouseout", handleMouseOut);
 
   svg3.append("g")
     .attr("transform", `translate(0, ${height})`)
