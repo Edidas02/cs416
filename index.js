@@ -289,7 +289,7 @@ const tooltipText = tooltip.append("text")
 
       const [mouseX, mouseY] = d3.pointer(d, this); 
       console.log(mouseX);
-      svg.append("rect")
+      svg3.append("rect")
         .attr("class", "tooltip")
         .attr("x", mouseX - tooltipWidth / 2)
         .attr("y", mouseY - tooltipHeight - 10)
@@ -299,7 +299,7 @@ const tooltipText = tooltip.append("text")
         .attr("stroke", "black")
         .attr("rx", 5)
         .attr("ry", 5);
-      svg.append("text")
+      svg3.append("text")
         .attr("class", "tooltip-text")
         .attr("x", mouseX)
         .attr("y", mouseY - tooltipHeight / 2 - 5)
@@ -307,10 +307,7 @@ const tooltipText = tooltip.append("text")
         .attr("alignment-baseline", "middle")
         .text(`With an affordability index of ${d.affindex}, this is ${d.affindex > 130 ? "affordable" : "not affordable"} for most`);
     })
-    .on("mouseout", function() {
-      tooltip.style("display", "none");
-      tooltip.style("opacity", 0);
-    });
+    .on("mouseout", handleMouseOut);
 
   svg3.append("g")
     .attr("transform", `translate(0, ${height})`)
@@ -364,6 +361,9 @@ function handleMouseOver(event, d) {
 }
 function handleMouseOut() {
   tooltip.style("opacity", 0);
+  tooltip.style("display", "none");
+  svg3.selectAll(".tooltip").remove(); 
+  svg3.selectAll(".tooltip-text").remove(); 
 }
 
 
